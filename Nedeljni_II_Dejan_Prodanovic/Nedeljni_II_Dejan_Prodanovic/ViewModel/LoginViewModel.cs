@@ -1,4 +1,7 @@
 ﻿using Nedeljni_II_Dejan_Prodanovic.Command;
+using Nedeljni_II_Dejan_Prodanovic.Model;
+using Nedeljni_II_Dejan_Prodanovic.Service;
+using Nedeljni_II_Dejan_Prodanovic.Utility;
 using Nedeljni_II_Dejan_Prodanovic.View;
 using System;
 using System.Collections.Generic;
@@ -16,13 +19,15 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
     {
         LoginView view;
         Dictionary<string, string> credentialsFromFile = new Dictionary<string, string>();
+        IUserService userService;
+        IClinicAminService adminService;
 
         public LoginViewModel(LoginView loginView)
         {
             view = loginView;
             ReadCredentialsFromFile();
-
- 
+            userService = new UserService();
+            adminService = new ClinicAminService();
 
         }
 
@@ -92,32 +97,22 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
                 return;
             }
 
-            //string encryptedString = EncryptionHelper.Encrypt(password);
+            string encryptedString = EncryptionHelper.Encrypt(password);
 
-            //tblUser user = userService.GetUserByUserNameAndPassword(UserName, encryptedString);
-            //if (user != null)
-            //{
-            //    tblAdmin admin = adminService.GetAdminByUserId(user.UserID);
+            tblUser user = userService.GetUserByUserNameAndPassword(UserName, encryptedString);
+            if (user != null)
+            {
+                tblClinicAdmin admin = adminService.GetAdminByUserId(user.UserID);
 
-            //    if (admin != null)
-            //    {
-            //        if (admin.AdministratorType.Equals("System"))
-            //        {
-            //            AdminMainView adminMainView = new AdminMainView(admin);
-            //            adminMainView.Show();
-            //            view.Close();
-            //            return;
-            //        }
-            //        else if (admin.AdministratorType.Equals("Local"))
-            //        {
-            //            LocaldAminMainView localAdminView = new LocaldAminMainView();
-            //            localAdminView.Show();
-            //            view.Close();
-            //            return;
-            //        }
+                if (admin != null)
+                {
 
-            //    }
-
+                    ClinicAdminFirstLogin adminMainView = new ClinicAdminFirstLogin();
+                    adminMainView.Show();
+                    view.Close();
+                    return;
+                }
+            }
             //    tblManager manager = managerService.GetManagerByUserId(user.UserID);
 
             //    if (manager != null)
@@ -147,7 +142,7 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
 
             //    MessageBox.Show("Wrong username or password");
             //}
-            
+
             else
             {
                 MessageBox.Show("Wrong username or password");

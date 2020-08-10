@@ -1,11 +1,11 @@
-﻿<Window x:Class="Nedeljni_II_Dejan_Prodanovic.View.AddClinicAdministrator"
+﻿<Window x:Class="Nedeljni_II_Dejan_Prodanovic.View.ClinicAdminFirstLogin"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Nedeljni_II_Dejan_Prodanovic.View"
         mc:Ignorable="d"
-        Title="AddClinicAdministrator"
+        Title="ClinicAdminFirstLogin"
         Height="600"
         Width="400"
         Background="#2e3137"
@@ -48,11 +48,18 @@
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
             <RowDefinition Height="*" />
             <RowDefinition Height="30" />
         </Grid.RowDefinitions>
-        <StackPanel Orientation="Vertical"
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <Label FontSize="20"
+                   Content="You have to create Clinic first" />
+        </StackPanel>
+        <StackPanel Grid.Row="1" Orientation="Vertical"
                     HorizontalAlignment="Center">
+            
+           
             <Label Content="FullName:" />
             <StackPanel Orientation="Horizontal">
                 <TextBox Text="{Binding User.FullName}" />

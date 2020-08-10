@@ -20,34 +20,25 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
         AddClinicAdministrator view;
          
         IUserService userService;
+        IClinicAminService adminService;
        
 
         public AddClinicAdministratorViewModel(AddClinicAdministrator addAdminView)
         {
             view = addAdminView;
 
-            AdministratorTypesList = new List<string>() { "Team", "System", "Local" };
-            //adminService = new AdminService();
+
+            adminService = new ClinicAminService();
             userService = new UserService();
+
            
-
             User = new tblUser();
-            Admin = new tblClinicAdmin();
+         
         }
 
-        private string selctedType;
-        public string SelctedType
-        {
-            get
-            {
-                return selctedType;
-            }
-            set
-            {
-                selctedType = value;
-                OnPropertyChanged("SelctedType");
-            }
-        }
+        public bool adminCreated = false;
+
+        
 
 
 
@@ -78,20 +69,26 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
             }
         }
 
-       
-        private tblClinicAdmin admin;
-        public tblClinicAdmin Admin
+        private DateTime dateOfBirth = DateTime.Now;
+        public DateTime DateOfBirth
         {
-            get
-            {
-                return admin;
-            }
-            set
-            {
-                admin = value;
-                OnPropertyChanged("Admin");
-            }
+            get { return dateOfBirth; }
+            set { dateOfBirth = value; OnPropertyChanged("DateOfBirth"); }
         }
+
+        //private tblClinicAdmin admin;
+        //public tblClinicAdmin Admin
+        //{
+        //    get
+        //    {
+        //        return admin;
+        //    }
+        //    set
+        //    {
+        //        admin = value;
+        //        OnPropertyChanged("Admin");
+        //    }
+        //}
 
         private ICommand save;
         public ICommand Save
@@ -118,44 +115,49 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
                     return;
                 }
 
-                
 
-                //tblUser userInDb = userService.GetUserByUserName(User.Username);
 
-                //if (userInDb != null)
-                //{
-                //    string str1 = string.Format("User with this username exists\n" +
-                //        "Enter another username");
-                //    MessageBox.Show(str1);
-                //    return;
-                //}
+                tblUser userInDb = userService.GetUserByUserName(User.Username);
 
-                //userInDb = userService.GetUserByJMBG(User.JMBG);
+                if (userInDb != null)
+                {
+                    string str1 = string.Format("User with this username exists\n" +
+                        "Enter another username");
+                    MessageBox.Show(str1);
+                    return;
+                }
 
-                //if (userInDb != null)
-                //{
-                //    string str1 = string.Format("User with this JMBG exists\n" +
-                //        "Enter another JMBG");
-                //    MessageBox.Show(str1);
-                //    return;
-                //}
+                userInDb = userService.GetUserByIdCardNumber(User.IDCardNumber);
+
+                if (userInDb != null)
+                {
+                    string str1 = string.Format("User with this IDCardNumber exists\n" +
+                        "Enter another IDCardNumber");
+                    MessageBox.Show(str1);
+                    return;
+                }
                 var passwordBox = parameter as PasswordBox;
                 var password = passwordBox.Password;
 
                 string encryptedString = EncryptionHelper.Encrypt(password);
                 User.Gender = Gender;
- 
+                User.DateOfBirth = DateOfBirth;
+
+
                 User.Password = encryptedString;
                 User = userService.AddUser(User);
 
-                //DateTime today = DateTime.Now;
-                //Admin.ExpiryDate = today.AddDays(7);
-                //Admin.AdministratorType = SelctedType;
-                //Admin.UserID = User.UserID;
 
-                //adminService.AddAdmin(Admin);
-                string str = string.Format("You added new admin of type {0}", SelctedType);
+                tblClinicAdmin admin = new tblClinicAdmin();
+                admin.HasCreatedClinic = false;
+
+                admin.UserID = User.UserID;
+
+                adminService.AddAdmin(admin);
+                string str = string.Format("You added Clinic administrator");
                 MessageBox.Show(str);
+
+                adminCreated = true;
                 view.Close();
 
             }
@@ -168,17 +170,17 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
         private bool CanSaveExecute(object parameter)
         {
 
-            //if (String.IsNullOrEmpty(User.FirstName) || String.IsNullOrEmpty(User.LastName)
-            //    || String.IsNullOrEmpty(User.JMBG) || String.IsNullOrEmpty(User.Residence)
-            //    || String.IsNullOrEmpty(User.Username) || parameter as PasswordBox == null
-            //    || SelctedType == null || String.IsNullOrEmpty((parameter as PasswordBox).Password))
-            //{
-            //    return false;
-            //}
-            //else
-            //{
+            if (String.IsNullOrEmpty(User.FullName) || String.IsNullOrEmpty(User.IDCardNumber)
+                || String.IsNullOrEmpty(User.Nationality) 
+                || String.IsNullOrEmpty(User.Username) || parameter as PasswordBox == null
+                 || String.IsNullOrEmpty((parameter as PasswordBox).Password))
+            {
+                return false;
+            }
+            else
+            {
                 return true;
-            //}
+            }
         }
         private ICommand close;
         public ICommand Close

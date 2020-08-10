@@ -101,16 +101,22 @@
     <Compile Include="Model\tblUser.cs">
       <DependentUpon>ClinicDataBaseModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Service\ClinicAminService.cs" />
+    <Compile Include="Service\IClinicAminService.cs" />
     <Compile Include="Service\IUserService.cs" />
     <Compile Include="Service\UserService.cs" />
     <Compile Include="Utility\EncryptionHelper.cs" />
     <Compile Include="Validation\ValidationClass.cs" />
     <Compile Include="ViewModel\AddClinicAdministratorViewModel.cs" />
+    <Compile Include="ViewModel\ClinicAdminFirstLoginViewModel.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\PredifinedAccountViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="View\AddClinicAdministrator.xaml.cs">
       <DependentUpon>AddClinicAdministrator.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ClinicAdminFirstLogin.xaml.cs">
+      <DependentUpon>ClinicAdminFirstLogin.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>
@@ -134,6 +140,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="View\AddClinicAdministrator.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ClinicAdminFirstLogin.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

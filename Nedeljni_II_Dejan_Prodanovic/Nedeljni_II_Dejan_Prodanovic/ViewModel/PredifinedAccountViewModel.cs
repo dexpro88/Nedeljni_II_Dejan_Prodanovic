@@ -1,4 +1,5 @@
 ﻿using Nedeljni_II_Dejan_Prodanovic.Command;
+using Nedeljni_II_Dejan_Prodanovic.Service;
 using Nedeljni_II_Dejan_Prodanovic.View;
 using System;
 using System.Collections.Generic;
@@ -13,17 +14,38 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
     class PredifinedAccountViewModel:ViewModelBase
     {
         PredifinedAccount view;
-   
 
+
+        IClinicAminService adminService;
 
         public PredifinedAccountViewModel(PredifinedAccount predifinedAccOpen)
         {
             view = predifinedAccOpen;
-            
+            adminService = new ClinicAminService();
 
+            if (adminService.GetAdmins().Count == 0)
+            {
+                NoClinicAdmin = Visibility.Visible;
+            }
+            else
+            {
+                NoClinicAdmin = Visibility.Hidden;
+            }
         }
 
- 
+        private Visibility noClinicAdmin;
+        public Visibility NoClinicAdmin
+        {
+            get
+            {
+                return noClinicAdmin;
+            }
+            set
+            {
+                noClinicAdmin = value;
+                OnPropertyChanged("NoClinicAdmin");
+            }
+        }
 
         private ICommand logout;
         public ICommand Logout
@@ -112,9 +134,17 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
             try
             {
                 AddClinicAdministrator addAdmin = new AddClinicAdministrator();
-                addAdmin.Show();
+                addAdmin.ShowDialog();
 
-
+                if ((addAdmin.DataContext as AddClinicAdministratorViewModel).adminCreated==true)
+                {
+                   
+                    NoClinicAdmin = Visibility.Hidden;
+                }
+                PredifinedAccount newView = new PredifinedAccount();
+                newView.Show();
+                view.Close();
+               
             }
             catch (Exception ex)
             {

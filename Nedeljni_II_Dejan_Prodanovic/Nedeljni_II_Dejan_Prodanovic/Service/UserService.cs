@@ -42,5 +42,74 @@ namespace Nedeljni_II_Dejan_Prodanovic.Service
                 return null;
             }
         }
+
+        public tblUser GetUserByIdCardNumber(string IdCardNumber)
+        {
+            try
+            {
+                using (ClinicDBEntities context = new ClinicDBEntities())
+                {
+
+
+                    tblUser user = (from x in context.tblUsers
+                                    where x.IDCardNumber.Equals(IdCardNumber)
+
+                                    select x).First();
+
+                    return user;
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Exception" + ex.Message.ToString());
+                return null;
+            }
+        }
+
+        public tblUser GetUserByUserName(string username)
+        {
+            try
+            {
+                using (ClinicDBEntities context = new ClinicDBEntities())
+                {
+
+
+                    tblUser user = (from x in context.tblUsers
+                                    where x.Username.Equals(username)
+
+                                    select x).First();
+
+                    return user;
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Exception" + ex.Message.ToString());
+                return null;
+            }
+        }
+
+        public tblUser GetUserByUserNameAndPassword(string username, string password)
+        {
+            try
+            {
+                using (ClinicDBEntities context = new ClinicDBEntities())
+                {
+
+
+                    tblUser user = (from x in context.tblUsers
+                                    where x.Username.Equals(username)
+                                    && x.Password.Equals(password)
+                                    select x).First();
+
+                    return user;
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Exception" + ex.Message.ToString());
+                return null;
+            }
+        }
     }
 }
