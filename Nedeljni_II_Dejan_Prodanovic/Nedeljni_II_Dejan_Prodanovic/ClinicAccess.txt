@@ -1,0 +1,2 @@
+username:clinic
+password:12345
