@@ -106,11 +106,21 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
 
                 if (admin != null)
                 {
-
-                    ClinicAdminFirstLogin adminMainView = new ClinicAdminFirstLogin();
-                    adminMainView.Show();
-                    view.Close();
-                    return;
+                    if (admin.HasCreatedClinic==false)
+                    {
+                        ClinicAdminFirstLogin adminMainView = new ClinicAdminFirstLogin(admin);
+                        view.Close();
+                        adminMainView.Show();
+                       
+                        return;
+                    }
+                    else
+                    {
+                        ClinicAdminMain adminMain = new ClinicAdminMain(admin);
+                        adminMain.Show();
+                        view.Close();
+                    }
+                   
                 }
             }
             //    tblManager manager = managerService.GetManagerByUserId(user.UserID);

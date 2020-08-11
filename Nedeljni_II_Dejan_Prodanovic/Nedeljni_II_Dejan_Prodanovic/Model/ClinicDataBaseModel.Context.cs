@@ -13,10 +13,10 @@ namespace Nedeljni_II_Dejan_Prodanovic.Model
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class ClinicDBEntities : DbContext
+    public partial class MyClinicDBEntities : DbContext
     {
-        public ClinicDBEntities()
-            : base("name=ClinicDBEntities")
+        public MyClinicDBEntities()
+            : base("name=MyClinicDBEntities")
         {
         }
     
@@ -32,5 +32,9 @@ namespace Nedeljni_II_Dejan_Prodanovic.Model
         public virtual DbSet<tblClinicManager> tblClinicManagers { get; set; }
         public virtual DbSet<tblClinicPatient> tblClinicPatients { get; set; }
         public virtual DbSet<tblUser> tblUsers { get; set; }
+        public virtual DbSet<vwClinicDoctor> vwClinicDoctors { get; set; }
+        public virtual DbSet<vwClinicMaintenace> vwClinicMaintenaces { get; set; }
+        public virtual DbSet<vwClinicManager> vwClinicManagers { get; set; }
+        public virtual DbSet<vwClinicPatient> vwClinicPatients { get; set; }
     }
 }

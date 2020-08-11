@@ -14,7 +14,7 @@ namespace Nedeljni_II_Dejan_Prodanovic.Service
         {
             try
             {
-                using (ClinicDBEntities context = new ClinicDBEntities())
+                using (MyClinicDBEntities context = new MyClinicDBEntities())
                 {
 
                     tblUser newUser = new tblUser();
@@ -47,7 +47,7 @@ namespace Nedeljni_II_Dejan_Prodanovic.Service
         {
             try
             {
-                using (ClinicDBEntities context = new ClinicDBEntities())
+                using (MyClinicDBEntities context = new MyClinicDBEntities())
                 {
 
 
@@ -70,7 +70,7 @@ namespace Nedeljni_II_Dejan_Prodanovic.Service
         {
             try
             {
-                using (ClinicDBEntities context = new ClinicDBEntities())
+                using (MyClinicDBEntities context = new MyClinicDBEntities())
                 {
 
 
@@ -93,7 +93,7 @@ namespace Nedeljni_II_Dejan_Prodanovic.Service
         {
             try
             {
-                using (ClinicDBEntities context = new ClinicDBEntities())
+                using (MyClinicDBEntities context = new MyClinicDBEntities())
                 {
 
 

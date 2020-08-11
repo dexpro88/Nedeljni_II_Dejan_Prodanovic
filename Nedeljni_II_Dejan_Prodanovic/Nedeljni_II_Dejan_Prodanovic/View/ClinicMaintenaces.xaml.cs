@@ -17,20 +17,20 @@ using System.Windows.Shapes;
 namespace Nedeljni_II_Dejan_Prodanovic.View
 {
     /// <summary>
-    /// Interaction logic for ClinicAdminFirstLogin.xaml
+    /// Interaction logic for ClinicMaintenaces.xaml
     /// </summary>
-    public partial class ClinicAdminFirstLogin : Window
+    public partial class ClinicMaintenaces : Window
     {
-        public ClinicAdminFirstLogin()
+        public ClinicMaintenaces()
         {
             InitializeComponent();
             
         }
 
-        public ClinicAdminFirstLogin(tblClinicAdmin admin)
+        public ClinicMaintenaces(tblClinicAdmin admin)
         {
             InitializeComponent();
-            DataContext = new ClinicAdminFirstLoginViewModel(this, admin);
+            DataContext = new ClinicMaintenaceViewModel(this,admin);
         }
     }
 }

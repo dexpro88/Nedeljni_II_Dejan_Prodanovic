@@ -101,22 +101,54 @@
     <Compile Include="Model\tblUser.cs">
       <DependentUpon>ClinicDataBaseModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\vwClinicDoctor.cs">
+      <DependentUpon>ClinicDataBaseModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\vwClinicMaintenace.cs">
+      <DependentUpon>ClinicDataBaseModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\vwClinicManager.cs">
+      <DependentUpon>ClinicDataBaseModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\vwClinicPatient.cs">
+      <DependentUpon>ClinicDataBaseModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Service\ClinicAminService.cs" />
+    <Compile Include="Service\ClinicMaintenaceService.cs" />
+    <Compile Include="Service\ClinicService.cs" />
     <Compile Include="Service\IClinicAminService.cs" />
+    <Compile Include="Service\IClinicMaintenace.cs" />
+    <Compile Include="Service\IClinicService.cs" />
     <Compile Include="Service\IUserService.cs" />
     <Compile Include="Service\UserService.cs" />
     <Compile Include="Utility\EncryptionHelper.cs" />
     <Compile Include="Validation\ValidationClass.cs" />
     <Compile Include="ViewModel\AddClinicAdministratorViewModel.cs" />
+    <Compile Include="ViewModel\AddClinicMaintenanceViewModel.cs" />
     <Compile Include="ViewModel\ClinicAdminFirstLoginViewModel.cs" />
+    <Compile Include="ViewModel\ClinicAdminMainViewModel.cs" />
+    <Compile Include="ViewModel\ClinicMaintenaceViewModel.cs" />
+    <Compile Include="ViewModel\EditClinicViewModel.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\PredifinedAccountViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="View\AddClinicAdministrator.xaml.cs">
       <DependentUpon>AddClinicAdministrator.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\AddClinicMaintenance.xaml.cs">
+      <DependentUpon>AddClinicMaintenance.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\ClinicAdminFirstLogin.xaml.cs">
       <DependentUpon>ClinicAdminFirstLogin.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ClinicAdminMain.xaml.cs">
+      <DependentUpon>ClinicAdminMain.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ClinicMaintenaces.xaml.cs">
+      <DependentUpon>ClinicMaintenaces.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\EditClinic.xaml.cs">
+      <DependentUpon>EditClinic.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>
@@ -143,7 +175,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\AddClinicMaintenance.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\ClinicAdminFirstLogin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ClinicAdminMain.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ClinicMaintenaces.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\EditClinic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -194,21 +242,20 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="Model\ClinicDataBaseModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ClinicDataBaseModel.Context.cs</LastGenOutput>
       <DependentUpon>ClinicDataBaseModel.edmx</DependentUpon>
+      <LastGenOutput>ClinicDataBaseModel.Context.cs</LastGenOutput>
     </Content>
     <Content Include="Model\ClinicDataBaseModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>ClinicDataBaseModel.edmx</DependentUpon>
       <LastGenOutput>ClinicDataBaseModel.cs</LastGenOutput>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

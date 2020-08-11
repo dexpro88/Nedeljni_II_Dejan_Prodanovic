@@ -12,5 +12,6 @@ namespace Nedeljni_II_Dejan_Prodanovic.Service
         tblClinicAdmin AddAdmin(tblClinicAdmin admin);
         tblClinicAdmin GetAdminByUserId(int userId);
         List<tblClinicAdmin> GetAdmins();
+        void SetHasCreatedClinic(tblClinicAdmin admin);
     }
 }

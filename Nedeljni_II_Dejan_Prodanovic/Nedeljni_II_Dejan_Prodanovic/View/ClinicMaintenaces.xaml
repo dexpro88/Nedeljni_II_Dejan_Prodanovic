@@ -1,0 +1,106 @@
+﻿<Window x:Class="Nedeljni_II_Dejan_Prodanovic.View.ClinicMaintenaces"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Nedeljni_II_Dejan_Prodanovic.View"
+        mc:Ignorable="d"
+        Title="ClinicMaintenaces"
+        WindowStartupLocation="CenterScreen"
+        Height="400"
+        Width="600"
+        Background="#2e3137">
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Margin"
+                    Value="0,0,10,0" />
+            <Setter Property="VerticalAlignment"
+                    Value="Center" />
+            <Setter Property="Padding"
+                    Value="10,0,10,0" />
+            <Setter Property="Background"
+                    Value="#545d6a" />
+            <Setter Property="Width"
+                    Value="60" />
+            <Setter Property="Foreground"
+                    Value="White" />
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="30" />
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0"
+                    Orientation="Horizontal">
+            <Label FontSize="18"
+                   Content="Positions: "
+                   VerticalAlignment="Center"
+                   Foreground="White" />
+        </StackPanel>
+        <StackPanel Grid.Row="0"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Right">
+            <Button  VerticalAlignment="Center"
+                     Command="{Binding Logout}"
+                     Content="Logout" />
+            <Button  VerticalAlignment="Center"
+                     Command="{Binding Back}"
+                     Content="Back" />
+        </StackPanel>
+        <DataGrid Grid.Row="1"
+                  Name="DataGridResults"
+                  ItemsSource="{Binding ClinicMaintenaceList, UpdateSourceTrigger=PropertyChanged}"
+                  SelectedItem="{Binding ClinicMaintenace,UpdateSourceTrigger=PropertyChanged}"
+                  IsReadOnly="True"
+                  HeadersVisibility="Column"
+                  AutoGenerateColumns="False"
+                  HorizontalGridLinesBrush="Black"
+                  BorderBrush="Black"
+                  Foreground="Black"
+                  FontWeight="Bold">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="FullName"
+                                    Binding="{Binding FullName}" />
+                <DataGridTextColumn Header="IDCardNumber"
+                                    Binding="{Binding IDCardNumber}" />
+                <DataGridTextColumn Header="Gender"
+                                    Binding="{Binding Gender}" />
+                <DataGridTextColumn Header="DateOfBirth"
+                                    Binding="{Binding DateOfBirth}" />
+                <DataGridTextColumn Header="Nationality"
+                                    Binding="{Binding Nationality}" />
+                <DataGridTextColumn Header="Username"
+                                    Binding="{Binding Username}" />
+                <DataGridTextColumn Header="Nationality"
+                                    Binding="{Binding Nationality}" />
+                <DataGridTextColumn Header="Nationality"
+                                    Binding="{Binding Nationality}" />
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Width="100"
+                                    Height="20"
+                                    Command="{Binding Path=DataContext.DeleteMaintenance, RelativeSource= {RelativeSource FindAncestor,
+                                       AncestorType={x:Type DataGrid}},UpdateSourceTrigger=PropertyChanged}"
+                                    Content="Delete" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <StackPanel Grid.Row="4"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Center">
+            <Button Visibility="{Binding ViewShowOrder, UpdateSourceTrigger=PropertyChanged}"
+                    Width="100"
+                    Command="{Binding AddClinicMaintenance}"
+                    Content="Add ClinicMaintenance" />
+            <Button Command="{Binding Close}"
+                    Content="Close" />
+        </StackPanel>
+    </Grid>
+</Window>

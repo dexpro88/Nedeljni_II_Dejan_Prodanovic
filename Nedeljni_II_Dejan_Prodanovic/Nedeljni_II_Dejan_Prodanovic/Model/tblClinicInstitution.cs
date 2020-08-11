@@ -16,7 +16,7 @@ namespace Nedeljni_II_Dejan_Prodanovic.Model
     {
         public int InstitutionID { get; set; }
         public string InstitutionName { get; set; }
-        public string CreationDate { get; set; }
+        public Nullable<System.DateTime> CreationDate { get; set; }
         public string InstitutionOwner { get; set; }
         public string InstitutionAddress { get; set; }
         public Nullable<int> NumberOdFloors { get; set; }

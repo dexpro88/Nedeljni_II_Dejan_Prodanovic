@@ -15,30 +15,28 @@ using System.Windows.Input;
 
 namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
 {
-    class AddClinicAdministratorViewModel:ViewModelBase
+    class AddClinicMaintenanceViewModel:ViewModelBase
     {
-        AddClinicAdministrator view;
-         
+        AddClinicMaintenance view;
         IUserService userService;
         IClinicAminService adminService;
-       
+        IClinicMaintenace maintenaceService;
 
-        public AddClinicAdministratorViewModel(AddClinicAdministrator addAdminView)
+        public AddClinicMaintenanceViewModel(AddClinicMaintenance addClinicMaintenance)
         {
-            view = addAdminView;
+            view = addClinicMaintenance;
 
 
             adminService = new ClinicAminService();
             userService = new UserService();
+            maintenaceService = new ClinicMaintenaceService();
 
-           
             User = new tblUser();
-         
+
         }
 
         public bool adminCreated = false;
 
-        
         private tblUser user;
         public tblUser User
         {
@@ -53,6 +51,27 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
             }
         }
 
+        private string hasRightToExpandClinic = "yes";
+        public string HasRightToExpandClinic
+        {
+            get { return hasRightToExpandClinic; }
+            set
+            {
+                hasRightToExpandClinic = value;
+                OnPropertyChanged("HasRightToExpandClinic");
+            }
+        }
+
+        private string takesCareOfIvalidAccess = "yes";
+        public string TakesCareOfIvalidAccess
+        {
+            get { return takesCareOfIvalidAccess; }
+            set
+            {
+                takesCareOfIvalidAccess = value;
+                OnPropertyChanged("TakesCareOfIvalidAccess");
+            }
+        }
         private string gender = "male";
         public string Gender
         {
@@ -71,19 +90,19 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
             set { dateOfBirth = value; OnPropertyChanged("DateOfBirth"); }
         }
 
-        //private tblClinicAdmin admin;
-        //public tblClinicAdmin Admin
-        //{
-        //    get
-        //    {
-        //        return admin;
-        //    }
-        //    set
-        //    {
-        //        admin = value;
-        //        OnPropertyChanged("Admin");
-        //    }
-        //}
+        private tblClinicMaintenace maintenace;
+        public tblClinicMaintenace Maintenace
+        {
+            get
+            {
+                return maintenace;
+            }
+            set
+            {
+                maintenace = value;
+                OnPropertyChanged("Maintenace");
+            }
+        }
 
         private ICommand save;
         public ICommand Save
@@ -102,7 +121,7 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
         {
             try
             {
-               
+
 
                 if (!ValidationClass.IsIDCardNumberValid(User.IDCardNumber))
                 {
@@ -131,7 +150,6 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
                     MessageBox.Show(str1);
                     return;
                 }
-
                 var passwordBox = parameter as PasswordBox;
                 var password = passwordBox.Password;
 
@@ -143,14 +161,30 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
                 User.Password = encryptedString;
                 User = userService.AddUser(User);
 
+                tblClinicMaintenace newMaintenace = new tblClinicMaintenace();
 
-                tblClinicAdmin admin = new tblClinicAdmin();
-                admin.HasCreatedClinic = false;
+                if (HasRightToExpandClinic.Equals("yes"))
+                {
+                    newMaintenace.CanChooseClinicExpansionPermission = true;
+                }
+                else
+                {
+                    newMaintenace.CanChooseClinicExpansionPermission = false;
+                }
 
-                admin.UserID = User.UserID;
+                if (TakesCareOfIvalidAccess.Equals("yes"))
+                {
+                    newMaintenace.CanChooseInvalidAccess = true;
+                }
+                else
+                {
+                    newMaintenace.CanChooseInvalidAccess = false;
+                }
 
-                adminService.AddAdmin(admin);
-                string str = string.Format("You added Clinic administrator");
+                newMaintenace.UserID = User.UserID;
+
+                maintenaceService.AddMaintenace(newMaintenace);
+                string str = string.Format("You added Clinic Maintenace");
                 MessageBox.Show(str);
 
                 adminCreated = true;
@@ -167,7 +201,7 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
         {
 
             if (String.IsNullOrEmpty(User.FullName) || String.IsNullOrEmpty(User.IDCardNumber)
-                || String.IsNullOrEmpty(User.Nationality) 
+                || String.IsNullOrEmpty(User.Nationality)
                 || String.IsNullOrEmpty(User.Username) || parameter as PasswordBox == null
                  || String.IsNullOrEmpty((parameter as PasswordBox).Password))
             {
@@ -238,6 +272,38 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
             }
         }
 
-       
+
+
+        private ICommand chooseHasRightToExpandClinic;
+        public ICommand ChooseHasRightToExpandClinic
+        {
+            get
+            {
+                if (chooseHasRightToExpandClinic == null)
+                {
+                    chooseHasRightToExpandClinic = new RelayCommand(ChooseHasRightToExpandClinicExecute,
+                        CanChooseHasRightToExpandClinicExecute);
+                }
+                return chooseGender;
+            }
+        }
+
+        private void ChooseHasRightToExpandClinicExecute(object parameter)
+        {
+            Gender = (string)parameter;
+        }
+
+        private bool CanChooseHasRightToExpandClinicExecute(object parameter)
+        {
+            if (parameter != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
     }
 }

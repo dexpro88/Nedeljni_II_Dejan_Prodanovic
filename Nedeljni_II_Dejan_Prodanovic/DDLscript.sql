@@ -1,9 +1,9 @@
 --we create database  
-CREATE DATABASE ClinicDB;
+CREATE DATABASE MyClinicDB;
 
 GO
 
-use ClinicDB;
+use MyClinicDB;
 
 GO
 
@@ -92,7 +92,7 @@ DROP TABLE IF EXISTS tblClinicInstitution;
  CREATE TABLE tblClinicInstitution (
     InstitutionID int NOT NULL IDENTITY(1,1) PRIMARY KEY,
 	InstitutionName varchar(50),
-	CreationDate varchar(50),
+	CreationDate date,
 	InstitutionOwner varchar(50),
     InstitutionAddress varchar(50),
 	NumberOdFloors int,
@@ -103,3 +103,69 @@ DROP TABLE IF EXISTS tblClinicInstitution;
 	NumberOfAccessPointsForInvalids int
  
 );
+
+GO
+CREATE VIEW vwClinicDoctor 
+AS
+
+SELECT   dbo.tblClinicDoctor.UniqueNumber ,dbo.tblClinicDoctor.AccountNumber,
+         dbo.tblClinicDoctor.DoctorShift ,dbo.tblClinicDoctor.RecievesPatients,
+		 dbo.tblClinicDoctor.Sector ,dbo.tblClinicDoctor.ManagerID ,
+         dbo.tblClinicDoctor.UserID, dbo.tblClinicDoctor.DoctorID,  
+		 dbo.tblUser.IDCardNumber,dbo.tblUser.FullName,
+         dbo.tblUser.Gender, dbo.tblUser.DateOfBirth,dbo.tblUser.Nationality,
+		 dbo.tblUser.Username 
+FROM            dbo.tblUser INNER JOIN
+            dbo.tblClinicDoctor ON dbo.tblClinicDoctor.UserID = dbo.tblUser.UserID  
+			 
+           
+GO
+
+
+GO
+CREATE VIEW vwClinicPatient
+AS
+
+SELECT   dbo.tblClinicPatient.PatientID ,dbo.tblClinicPatient.HealthCardNumber,
+         dbo.tblClinicPatient.HealthAssuranceExpiryDate ,dbo.tblClinicPatient.DoctorUniqueNumber,
+		 dbo.tblClinicPatient.DoctorId ,dbo.tblClinicPatient.UserID ,
+		 dbo.tblUser.IDCardNumber,dbo.tblUser.FullName,
+         dbo.tblUser.Gender, dbo.tblUser.DateOfBirth,dbo.tblUser.Nationality,
+		 dbo.tblUser.Username 
+FROM            dbo.tblUser INNER JOIN
+            dbo.tblClinicPatient ON dbo.tblClinicPatient.UserID = dbo.tblUser.UserID  
+			 
+           
+GO
+
+GO
+CREATE VIEW vwClinicManager
+AS
+
+SELECT   dbo.tblClinicManager.ManagerID ,dbo.tblClinicManager.MaxNumberOfDoctors,
+         dbo.tblClinicManager.MinNumberOdRooms ,dbo.tblClinicManager.NumberOfOmissions,
+		 dbo.tblClinicManager.ManagerFloor ,dbo.tblClinicManager.UserID ,
+		 dbo.tblUser.IDCardNumber,dbo.tblUser.FullName,
+         dbo.tblUser.Gender, dbo.tblUser.DateOfBirth,dbo.tblUser.Nationality,
+		 dbo.tblUser.Username 
+FROM            dbo.tblUser INNER JOIN
+            dbo.tblClinicManager ON dbo.tblClinicManager.UserID = dbo.tblUser.UserID  
+			 
+           
+GO
+
+GO
+CREATE VIEW vwClinicMaintenace
+AS
+
+SELECT   dbo.tblClinicMaintenace.ClinicMaintenaceID ,dbo.tblClinicMaintenace.CanChooseInvalidAccess,
+         dbo.tblClinicMaintenace.CanChooseClinicExpansionPermission,
+		 dbo.tblClinicMaintenace.UserID ,
+		 dbo.tblUser.IDCardNumber,dbo.tblUser.FullName,
+         dbo.tblUser.Gender, dbo.tblUser.DateOfBirth,dbo.tblUser.Nationality,
+		 dbo.tblUser.Username 
+FROM            dbo.tblUser INNER JOIN
+            dbo.tblClinicMaintenace ON dbo.tblClinicMaintenace.UserID = dbo.tblUser.UserID  
+			 
+           
+GO

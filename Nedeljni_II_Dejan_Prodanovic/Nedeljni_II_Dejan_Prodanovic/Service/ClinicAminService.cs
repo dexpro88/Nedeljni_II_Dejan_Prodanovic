@@ -13,7 +13,7 @@ namespace Nedeljni_II_Dejan_Prodanovic.Service
         {
             try
             {
-                using (ClinicDBEntities context = new ClinicDBEntities())
+                using (MyClinicDBEntities context = new MyClinicDBEntities())
                 {
 
                     tblClinicAdmin newAdmin = new tblClinicAdmin();
@@ -39,7 +39,7 @@ namespace Nedeljni_II_Dejan_Prodanovic.Service
         {
             try
             {
-                using (ClinicDBEntities context = new ClinicDBEntities())
+                using (MyClinicDBEntities context = new MyClinicDBEntities())
                 {
 
 
@@ -61,7 +61,7 @@ namespace Nedeljni_II_Dejan_Prodanovic.Service
         {
             try
             {
-                using (ClinicDBEntities context = new ClinicDBEntities())
+                using (MyClinicDBEntities context = new MyClinicDBEntities())
                 {
                     List<tblClinicAdmin> list = new List<tblClinicAdmin>();
                     list = (from x in context.tblClinicAdmins select x).ToList();
@@ -73,6 +73,35 @@ namespace Nedeljni_II_Dejan_Prodanovic.Service
             {
                 System.Diagnostics.Debug.WriteLine("Exception" + ex.Message.ToString());
                 return null;
+            }
+        }
+
+        public void SetHasCreatedClinic(tblClinicAdmin admin)
+        {
+            try
+            {
+                using (MyClinicDBEntities context = new MyClinicDBEntities())
+                {
+
+                    tblClinicAdmin adminToEdit = (from u in context.tblClinicAdmins
+                                                where u.AdminID == admin.AdminID
+                                                select u).First();
+
+
+                    adminToEdit.HasCreatedClinic = true;
+
+
+                    context.SaveChanges();
+
+
+                    
+
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Exception" + ex.Message.ToString());
+               
             }
         }
     }
