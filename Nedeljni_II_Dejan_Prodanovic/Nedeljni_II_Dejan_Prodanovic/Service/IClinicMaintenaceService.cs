@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace Nedeljni_II_Dejan_Prodanovic.Service
 {
-    interface IClinicMaintenace
+    interface IClinicMaintenaceService
     {
         tblClinicMaintenace AddMaintenace(tblClinicMaintenace maintenace);
         tblClinicMaintenace GetMaintenace();
         List<tblClinicMaintenace> GetMaintenaces();
         List<vwClinicMaintenace> GetvwMaintenaces();
         void DeleteMaintenace(int maintenaceId);
-
+        vwClinicMaintenace GetMaintenaceByUserId(int userId);
     }
 }

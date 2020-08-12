@@ -15,27 +15,51 @@ using System.Windows.Input;
 
 namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
 {
-    class AddClinicMaintenanceViewModel:ViewModelBase
+    class AddClinicManagerViewModel:ViewModelBase
     {
-        AddClinicMaintenance view;
+        AddClinicManager view;
         IUserService userService;
         IClinicAminService adminService;
-        IClinicMaintenaceService maintenaceService;
+        IClinicManagerService managerService;
+        IClinicService clinicService;
 
-        public AddClinicMaintenanceViewModel(AddClinicMaintenance addClinicMaintenance)
+        public AddClinicManagerViewModel(AddClinicManager addClinicManager)
         {
-            view = addClinicMaintenance;
+            view = addClinicManager;
 
 
             adminService = new ClinicAminService();
             userService = new UserService();
-            maintenaceService = new ClinicMaintenaceService();
+            managerService = new ClinicManagerService();
+            clinicService = new ClinicService();
 
             User = new tblUser();
+            Manager = new tblClinicManager();
 
+            FloorList = new List<string>();
+            tblClinicInstitution clinic = clinicService.GetClinic();
+            for (int i = 0; i < clinic.NumberOdFloors; i++)
+            {
+                int f = i + 1;
+                FloorList.Add(f.ToString());
+            }
         }
 
         public bool adminCreated = false;
+
+        private List<string> floorList;
+        public List<string> FloorList
+        {
+            get
+            {
+                return floorList;
+            }
+            set
+            {
+                floorList = value;
+                OnPropertyChanged("FloorList");
+            }
+        }
 
         private tblUser user;
         public tblUser User
@@ -50,28 +74,21 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
                 OnPropertyChanged("User");
             }
         }
-
-        private string hasRightToExpandClinic = "yes";
-        public string HasRightToExpandClinic
+        private tblClinicManager manager;
+        public tblClinicManager Manager
         {
-            get { return hasRightToExpandClinic; }
+            get
+            {
+                return manager;
+            }
             set
             {
-                hasRightToExpandClinic = value;
-                OnPropertyChanged("HasRightToExpandClinic");
+                manager = value;
+                OnPropertyChanged("Manager");
             }
         }
 
-        private string takesCareOfIvalidAccess = "yes";
-        public string TakesCareOfIvalidAccess
-        {
-            get { return takesCareOfIvalidAccess; }
-            set
-            {
-                takesCareOfIvalidAccess = value;
-                OnPropertyChanged("TakesCareOfIvalidAccess");
-            }
-        }
+        
         private string gender = "male";
         public string Gender
         {
@@ -83,13 +100,24 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
             }
         }
 
+        private string floor;
+        public string Floor
+        {
+            get { return floor; }
+            set
+            {
+                floor = value;
+                OnPropertyChanged("Floor");
+            }
+        }
+
         private DateTime dateOfBirth = DateTime.Now;
         public DateTime DateOfBirth
         {
             get { return dateOfBirth; }
             set { dateOfBirth = value; OnPropertyChanged("DateOfBirth"); }
         }
-       
+
         private tblClinicMaintenace maintenace;
         public tblClinicMaintenace Maintenace
         {
@@ -129,8 +157,6 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
                     return;
                 }
 
-
-
                 tblUser userInDb = userService.GetUserByUserName(User.Username);
 
                 if (userInDb != null)
@@ -161,30 +187,33 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
                 User.Password = encryptedString;
                 User = userService.AddUser(User);
 
-                tblClinicMaintenace newMaintenace = new tblClinicMaintenace();
-
-                if (HasRightToExpandClinic.Equals("yes"))
+                if (Manager.MaxNumberOfDoctors == null)
                 {
-                    newMaintenace.CanChooseClinicExpansionPermission = true;
-                }
-                else
-                {
-                    newMaintenace.CanChooseClinicExpansionPermission = false;
+                    string str1 = string.Format("Invalid input for MaxNumberOfDoctors " +
+                        "\n" +
+                        "Enter integer number");
+                    MessageBox.Show(str1);
+                    return;
                 }
 
-                if (TakesCareOfIvalidAccess.Equals("yes"))
+
+                if (Manager.MaxNumberOfDoctors == null)
                 {
-                    newMaintenace.CanChooseInvalidAccess = true;
-                }
-                else
-                {
-                    newMaintenace.CanChooseInvalidAccess = false;
+                    string str1 = string.Format("Invalid input for MinNumberOdRooms " +
+                        "\n" +
+                        "Enter integer number");
+                    MessageBox.Show(str1);
+                    return;
                 }
 
-                newMaintenace.UserID = User.UserID;
+                
+                //tblClinicManager newManager = new tblClinicManager();
+                Manager.UserID = User.UserID;
+                Manager.ManagerFloor = Floor;
 
-                maintenaceService.AddMaintenace(newMaintenace);
-                string str = string.Format("You added Clinic Maintenace");
+                managerService.AddManager(Manager);
+
+                string str = string.Format("You added Clinic Manager");
                 MessageBox.Show(str);
 
                 adminCreated = true;
@@ -304,6 +333,5 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
                 return false;
             }
         }
-
     }
 }

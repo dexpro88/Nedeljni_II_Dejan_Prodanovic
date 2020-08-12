@@ -12,23 +12,22 @@ using System.Windows.Input;
 
 namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
 {
-    class ClinicMaintenaceViewModel:ViewModelBase
+    class ClinicManagersViewModel:ViewModelBase
     {
-        ClinicMaintenaces view;
+        ClinicManagers view;
 
-        IClinicMaintenaceService maintenaceService;
+        IClinicManagerService managerService;
 
-        public ClinicMaintenaceViewModel(ClinicMaintenaces clinicMaintenacesView,
+        public ClinicManagersViewModel(ClinicManagers clinicMaintenacesView,
             tblClinicAdmin adminLogedIn)
         {
             view = clinicMaintenacesView;
 
 
-            maintenaceService = new ClinicMaintenaceService();
+            managerService = new ClinicManagerService();
 
-            ClinicMaintenace = new ClinicMaintenance();
-            clinicMaintenaceListDB = maintenaceService.GetvwMaintenaces();
-            ClinicMaintenaceList = ConvertForPresentation(clinicMaintenaceListDB);
+            ClinicManager = new vwClinicManager();
+            ClinicManagerList = managerService.GetvwManagers();
         }
 
         private tblClinicAdmin admin;
@@ -46,60 +45,57 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
         }
 
 
-        private ClinicMaintenance clinicMaintenace;
-        public ClinicMaintenance ClinicMaintenace
+        private vwClinicManager clinicManager;
+        public vwClinicManager ClinicManager
         {
             get
             {
-                return clinicMaintenace;
+                return clinicManager;
             }
             set
             {
-                clinicMaintenace = value;
-                OnPropertyChanged("ClinicMaintenace");
+                clinicManager = value;
+                OnPropertyChanged("ClinicManager");
             }
         }
 
-        private List<vwClinicMaintenace> clinicMaintenaceListDB;
-
-        private List<ClinicMaintenance> clinicMaintenaceList;
-        public List<ClinicMaintenance> ClinicMaintenaceList
+        private List<vwClinicManager> clinicManagerList;
+        public List<vwClinicManager> ClinicManagerList
         {
             get
             {
-                return clinicMaintenaceList;
+                return clinicManagerList;
             }
             set
             {
-                clinicMaintenaceList = value;
-                OnPropertyChanged("ClinicMaintenaceList");
+                clinicManagerList = value;
+                OnPropertyChanged("ClinicManagerList");
             }
         }
-        private ICommand addClinicMaintenance;
-        public ICommand AddClinicMaintenance
+        private ICommand addClinicManager;
+        public ICommand AddClinicManager
         {
             get
             {
-                if (addClinicMaintenance == null)
+                if (addClinicManager == null)
                 {
-                    addClinicMaintenance = new RelayCommand(param => AddClinicMaintenanceExecute(),
-                        param => CanAddClinicMaintenanceExecute());
+                    addClinicManager = new RelayCommand(param => AddClinicManagerExecute(),
+                        param => CanAddClinicManagerExecute());
                 }
-                return addClinicMaintenance;
+                return addClinicManager;
             }
         }
 
-        private void AddClinicMaintenanceExecute()
+        private void AddClinicManagerExecute()
         {
             try
             {
 
-                AddClinicMaintenance addClinicMaintenance = new AddClinicMaintenance();
-                addClinicMaintenance.ShowDialog();
+                AddClinicManager addClinicManager = new AddClinicManager();
+                addClinicManager.ShowDialog();
 
-                clinicMaintenaceListDB = maintenaceService.GetvwMaintenaces();
-                ClinicMaintenaceList = ConvertForPresentation(clinicMaintenaceListDB);
-                 
+                ClinicManagerList = managerService.GetvwManagers();
+
 
             }
             catch (Exception ex)
@@ -107,46 +103,45 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
                 MessageBox.Show(ex.ToString());
             }
         }
-        private bool CanAddClinicMaintenanceExecute()
+        private bool CanAddClinicManagerExecute()
         {
 
             return true;
         }
 
-        private ICommand deletMaintenance;
-        public ICommand DeleteMaintenance
+        private ICommand deletManager;
+        public ICommand DeletManager
         {
             get
             {
-                if (deletMaintenance == null)
+                if (deletManager == null)
                 {
-                    deletMaintenance = new RelayCommand(param => DeleteMaintenanceExecute(),
-                        param => CanDeleteMaintenanceExecute());
+                    deletManager = new RelayCommand(param => DeletManagerExecute(),
+                        param => CanDeletManagerExecute());
                 }
-                return deletMaintenance;
+                return deletManager;
             }
         }
 
-        private void DeleteMaintenanceExecute()
+        private void DeletManagerExecute()
         {
             try
             {
-                if (ClinicMaintenace != null)
+                if (ClinicManager != null)
                 {
 
                     MessageBoxResult result = MessageBox.Show("Are you sure that you want to " +
                         "delete this ClinicMaintenace?" +
                         "", "My App",
                         MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
-                    int maintenaceId = ClinicMaintenace.ClinicMaintenaceID;
-                   
+                    int maintenaceId = ClinicManager.ManagerID;
+
 
                     switch (result)
                     {
                         case MessageBoxResult.Yes:
-                            maintenaceService.DeleteMaintenace(maintenaceId);
-                            clinicMaintenaceListDB = maintenaceService.GetvwMaintenaces();
-                            ClinicMaintenaceList = ConvertForPresentation(clinicMaintenaceListDB);
+                            //maintenaceService.DeleteMaintenace(maintenaceId);
+                            ClinicManagerList = managerService.GetvwManagers();
 
                             break;
                     }
@@ -158,9 +153,9 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
                 MessageBox.Show(ex.ToString());
             }
         }
-        private bool CanDeleteMaintenanceExecute()
+        private bool CanDeletManagerExecute()
         {
-            if (ClinicMaintenace == null)
+            if (ClinicManager == null)
             {
                 return false;
             }
@@ -261,35 +256,5 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
         {
             return true;
         }
-
-        private List<ClinicMaintenance>ConvertForPresentation(List<vwClinicMaintenace>list)
-        {
-            List<ClinicMaintenance> returnList = new List<ClinicMaintenance>();
-
-            foreach (var item in list)
-            {
-                ClinicMaintenance newItem = new ClinicMaintenance();
-                newItem.CanChooseInvalidAccess = item.CanChooseInvalidAccess;
-                newItem.ClinicMaintenaceID = item.ClinicMaintenaceID;
-                newItem.CanChooseClinicExpansionPermission = item.CanChooseClinicExpansionPermission;
-                newItem.UserID = item.UserID;
-                newItem.IDCardNumber = item.IDCardNumber;
-                newItem.FullName = item.FullName;
-                newItem.Gender = item.Gender;
-                newItem.DateOfBirth = item.DateOfBirth;
-                newItem.Nationality = item.Nationality;
-                newItem.Username = item.Username;
-
-                if (item.CanChooseInvalidAccess == false)
-                {
-                    newItem.CanChooseAmbulanceAccess = true;
-                }
-
-                returnList.Add(newItem);
-
-            }
-            return returnList;
-       
-    }
     }
 }

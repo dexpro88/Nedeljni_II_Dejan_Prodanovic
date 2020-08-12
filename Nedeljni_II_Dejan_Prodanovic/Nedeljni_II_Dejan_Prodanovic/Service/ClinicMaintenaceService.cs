@@ -8,7 +8,7 @@ using Nedeljni_II_Dejan_Prodanovic.Model;
 
 namespace Nedeljni_II_Dejan_Prodanovic.Service
 {
-    class ClinicMaintenaceService : IClinicMaintenace
+    class ClinicMaintenaceService : IClinicMaintenaceService
     {
         public tblClinicMaintenace AddMaintenace(tblClinicMaintenace maintenace)
         {
@@ -60,7 +60,7 @@ namespace Nedeljni_II_Dejan_Prodanovic.Service
                                             where u.UserID == userId
                                             select u).First();
                     context.tblClinicMaintenaces.Remove(maintenaceToDelete);
-                   
+                    context.tblUsers.Remove(userToDelete);
 
                     context.SaveChanges();
 
@@ -70,6 +70,28 @@ namespace Nedeljni_II_Dejan_Prodanovic.Service
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine("Exception" + ex.Message.ToString());
+            }
+        }
+
+        public vwClinicMaintenace GetMaintenaceByUserId(int userId)
+        {
+            try
+            {
+                using (MyClinicDBEntities context = new MyClinicDBEntities())
+                {
+
+
+                    vwClinicMaintenace admin = (from x in context.vwClinicMaintenaces
+                                            where x.UserID == userId
+                                            select x).First();
+
+                    return admin;
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Exception" + ex.Message.ToString());
+                return null;
             }
         }
 

@@ -21,6 +21,8 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
         Dictionary<string, string> credentialsFromFile = new Dictionary<string, string>();
         IUserService userService;
         IClinicAminService adminService;
+        IClinicMaintenaceService maintenaceService;
+        IClinicManagerService managerService;
 
         public LoginViewModel(LoginView loginView)
         {
@@ -28,7 +30,8 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
             ReadCredentialsFromFile();
             userService = new UserService();
             adminService = new ClinicAminService();
-
+            maintenaceService = new ClinicMaintenaceService();
+            managerService = new ClinicManagerService();
         }
 
         private string userName;
@@ -121,6 +124,31 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
                         view.Close();
                     }
                    
+                }
+                vwClinicMaintenace maintenace = maintenaceService.GetMaintenaceByUserId(user.UserID);
+
+                if (maintenace != null)
+                {
+
+                    ClinicMaintenanceMain maintenanceMain = new ClinicMaintenanceMain();
+                    view.Close();
+                    maintenanceMain.Show();
+
+                        return;
+                   
+                }
+
+                vwClinicManager manager = managerService.GetManagerByUserId(user.UserID);
+
+                if (manager != null)
+                {
+
+                    ClinicManagerMain managerMain = new ClinicManagerMain();
+                    view.Close();
+                    managerMain.Show();
+
+                    return;
+
                 }
             }
             //    tblManager manager = managerService.GetManagerByUserId(user.UserID);

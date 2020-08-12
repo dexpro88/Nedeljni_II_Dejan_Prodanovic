@@ -57,6 +57,9 @@
             <Button Command="{Binding ShowClinicMaintenances}"
                     Visibility="{Binding NoClinicAdmin, UpdateSourceTrigger=PropertyChanged}"
                     Content="ClinicMaintenances" />
+            <Button Command="{Binding ShowClinicManagers}"
+                    Visibility="{Binding NoClinicAdmin, UpdateSourceTrigger=PropertyChanged}"
+                    Content="ClinicManagers" />
             <Button Command="{Binding EditClinic}"
                     Visibility="{Binding EditClinic, UpdateSourceTrigger=PropertyChanged}"
                     Content="Edit clinic" />
