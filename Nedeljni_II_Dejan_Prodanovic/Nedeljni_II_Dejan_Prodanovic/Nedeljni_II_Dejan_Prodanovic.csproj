@@ -117,29 +117,40 @@
     <Compile Include="Service\ClinicMaintenaceService.cs" />
     <Compile Include="Service\ClinicManagerService.cs" />
     <Compile Include="Service\ClinicService.cs" />
+    <Compile Include="Service\DoctorService.cs" />
     <Compile Include="Service\IClinicAminService.cs" />
     <Compile Include="Service\IClinicMaintenaceService.cs" />
     <Compile Include="Service\IClinicManagerService.cs" />
     <Compile Include="Service\IClinicService.cs" />
+    <Compile Include="Service\IDoctorService.cs" />
+    <Compile Include="Service\IPatientService.cs" />
     <Compile Include="Service\IUserService.cs" />
+    <Compile Include="Service\PatientService.cs" />
     <Compile Include="Service\UserService.cs" />
     <Compile Include="Utility\EncryptionHelper.cs" />
     <Compile Include="Validation\ValidationClass.cs" />
     <Compile Include="ViewModel\AddClinicAdministratorViewModel.cs" />
+    <Compile Include="ViewModel\AddClinicDoctorViewModel.cs" />
     <Compile Include="ViewModel\AddClinicMaintenanceViewModel.cs" />
     <Compile Include="ViewModel\AddClinicManagerViewModel.cs" />
     <Compile Include="ViewModel\ClinicAdminFirstLoginViewModel.cs" />
     <Compile Include="ViewModel\ClinicAdminMainViewModel.cs" />
+    <Compile Include="ViewModel\ClinicDoctorsViewModel.cs" />
     <Compile Include="ViewModel\ClinicMaintenaceViewModel.cs" />
     <Compile Include="ViewModel\ClinicMaintenance.cs" />
     <Compile Include="ViewModel\ClinicMaintenanceMainViewModel.cs" />
     <Compile Include="ViewModel\ClinicManagersViewModel.cs" />
+    <Compile Include="ViewModel\ClinicPatientsViewModel.cs" />
+    <Compile Include="ViewModel\Doctor.cs" />
     <Compile Include="ViewModel\EditClinicViewModel.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\PredifinedAccountViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="View\AddClinicAdministrator.xaml.cs">
       <DependentUpon>AddClinicAdministrator.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\AddClinicDoctor.xaml.cs">
+      <DependentUpon>AddClinicDoctor.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\AddClinicMaintenance.xaml.cs">
       <DependentUpon>AddClinicMaintenance.xaml</DependentUpon>
@@ -153,6 +164,9 @@
     <Compile Include="View\ClinicAdminMain.xaml.cs">
       <DependentUpon>ClinicAdminMain.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\ClinicDoctors.xaml.cs">
+      <DependentUpon>ClinicDoctors.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\ClinicMaintenaces.xaml.cs">
       <DependentUpon>ClinicMaintenaces.xaml</DependentUpon>
     </Compile>
@@ -164,6 +178,9 @@
     </Compile>
     <Compile Include="View\ClinicManagers.xaml.cs">
       <DependentUpon>ClinicManagers.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ClinicPatients.xaml.cs">
+      <DependentUpon>ClinicPatients.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\EditClinic.xaml.cs">
       <DependentUpon>EditClinic.xaml</DependentUpon>
@@ -193,6 +210,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\AddClinicDoctor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\AddClinicMaintenance.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -209,6 +230,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\ClinicDoctors.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\ClinicMaintenaces.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -222,6 +247,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\ClinicManagers.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ClinicPatients.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

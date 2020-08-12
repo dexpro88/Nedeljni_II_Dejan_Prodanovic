@@ -193,6 +193,78 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
             return true;
         }
 
+        private ICommand showClinicDoctors;
+        public ICommand ShowClinicDoctors
+        {
+            get
+            {
+                if (showClinicDoctors == null)
+                {
+                    showClinicDoctors = new RelayCommand(param => ShowClinicDoctorsExecute(),
+                        param => CanShowClinicDoctorsExecute());
+                }
+                return showClinicDoctors;
+            }
+        }
+
+        private void ShowClinicDoctorsExecute()
+        {
+            try
+            {
+
+                ClinicDoctors clinicDoctors = new ClinicDoctors(admin);
+                clinicDoctors.Show();
+                view.Close();
+                
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+        private bool CanShowClinicDoctorsExecute()
+        {
+
+            return true;
+        }
+
+        private ICommand showClinicPatients;
+        public ICommand ShowClinicPatients
+        {
+            get
+            {
+                if (showClinicPatients == null)
+                {
+                    showClinicPatients = new RelayCommand(param => ShowClinicPatientsExecute(),
+                        param => CanShowClinicPatientsExecute());
+                }
+                return showClinicPatients;
+            }
+        }
+
+        private void ShowClinicPatientsExecute()
+        {
+            try
+            {
+
+                ClinicPatients clinicPatients = new ClinicPatients(admin);
+                clinicPatients.Show();
+                view.Close();
+
+                
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+        private bool CanShowClinicPatientsExecute()
+        {
+
+            return true;
+        }
+
         private ICommand logout;
         public ICommand Logout
         {
