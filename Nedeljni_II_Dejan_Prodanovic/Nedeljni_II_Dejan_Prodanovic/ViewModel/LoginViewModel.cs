@@ -134,7 +134,7 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
                 if (maintenace != null)
                 {
 
-                    ClinicMaintenanceMain maintenanceMain = new ClinicMaintenanceMain();
+                    ClinicMaintenanceMain maintenanceMain = new ClinicMaintenanceMain(maintenace);
                     view.Close();
                     maintenanceMain.Show();
 

@@ -134,6 +134,7 @@
     <Compile Include="ViewModel\AddClinicMaintenanceViewModel.cs" />
     <Compile Include="ViewModel\AddClinicManagerViewModel.cs" />
     <Compile Include="ViewModel\AddClinicPatientViewModel.cs" />
+    <Compile Include="ViewModel\AddReportViewModel.cs" />
     <Compile Include="ViewModel\ClinicAdminFirstLoginViewModel.cs" />
     <Compile Include="ViewModel\ClinicAdminMainViewModel.cs" />
     <Compile Include="ViewModel\ClinicDoctorsViewModel.cs" />
@@ -147,6 +148,8 @@
     <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\Patient.cs" />
     <Compile Include="ViewModel\PredifinedAccountViewModel.cs" />
+    <Compile Include="ViewModel\Report.cs" />
+    <Compile Include="ViewModel\ReportsViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="View\AddClinicAdministrator.xaml.cs">
       <DependentUpon>AddClinicAdministrator.xaml</DependentUpon>
@@ -162,6 +165,9 @@
     </Compile>
     <Compile Include="View\AddClinicPatient.xaml.cs">
       <DependentUpon>AddClinicPatient.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\AddReport.xaml.cs">
+      <DependentUpon>AddReport.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\ClinicAdminFirstLogin.xaml.cs">
       <DependentUpon>ClinicAdminFirstLogin.xaml</DependentUpon>
@@ -205,6 +211,9 @@
     <Compile Include="View\RegisterView.xaml.cs">
       <DependentUpon>RegisterView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Reports.xaml.cs">
+      <DependentUpon>Reports.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -234,6 +243,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\AddClinicPatient.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\AddReport.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -290,6 +303,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\RegisterView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Reports.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

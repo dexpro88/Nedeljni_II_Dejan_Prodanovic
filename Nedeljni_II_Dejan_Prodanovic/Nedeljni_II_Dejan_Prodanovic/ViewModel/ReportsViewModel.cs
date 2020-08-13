@@ -1,6 +1,5 @@
 ﻿using Nedeljni_II_Dejan_Prodanovic.Command;
 using Nedeljni_II_Dejan_Prodanovic.Model;
-using Nedeljni_II_Dejan_Prodanovic.Service;
 using Nedeljni_II_Dejan_Prodanovic.View;
 using System;
 using System.Collections.Generic;
@@ -13,33 +12,29 @@ using System.Windows.Input;
 
 namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
 {
-    class ClinicMaintenanceMainViewModel:ViewModelBase
+    class ReportsViewModel:ViewModelBase
     {
-        ClinicMaintenanceMain view;
-        IUserService userService;
-        IClinicAminService adminService;
-        IClinicMaintenaceService maintenaceService;
-        IClinicManagerService managerService;
-        IDoctorService doctorService;
+        Reports view;
+         
 
-        public ClinicMaintenanceMainViewModel(ClinicMaintenanceMain addClinicDoctor, 
+        public ReportsViewModel(Reports reportsView,
             vwClinicMaintenace maintenaceLogedIn)
         {
-            view = addClinicDoctor;
+            view = reportsView;
 
 
-            adminService = new ClinicAminService();
-            userService = new UserService();
-            maintenaceService = new ClinicMaintenaceService();
-            managerService = new ClinicManagerService();
-            doctorService = new DoctorService();
-            //User = new tblUser();
-            //Doctor = new tblClinicDoctor();
+           
 
-            //ManagerList = managerService.GetvwManagers();
-            //ManagerListToPresent = new List<string>();
-            //CreateManagerDictionary();
+            
             Maintenace = maintenaceLogedIn;
+            List<Report> allReports = ReadReportsFromFile();
+             Reports = GetReportsOfMaintenance(allReports);
+
+            //foreach (var item in Reports)
+            //{
+            //    MessageBox.Show(item.NumberOfHours);
+            //}
+         
 
         }
 
@@ -54,6 +49,20 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
             {
                 maintenace = value;
                 OnPropertyChanged("Maintenace");
+            }
+        }
+
+        private List<Report> reports;
+        public List<Report> Reports
+        {
+            get
+            {
+                return reports;
+            }
+            set
+            {
+                reports = value;
+                OnPropertyChanged("Reports");
             }
         }
 
@@ -89,9 +98,6 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
             return true;
         }
 
-
-
-
         private ICommand close;
         public ICommand Close
         {
@@ -121,79 +127,35 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
             return true;
         }
 
-
-
-
-
-        private ICommand addReport;
-        public ICommand AddReport
+        private ICommand back;
+        public ICommand Back
         {
             get
             {
-                if (addReport == null)
+                if (back == null)
                 {
-                    addReport = new RelayCommand(param => AddReportExecute(),
-                        param => CanAddReportExecute());
+                    back = new RelayCommand(param => BackExecute(), param => CanBackExecute());
                 }
-                return addReport;
+                return back;
             }
         }
 
-        private void AddReportExecute()
+        private void BackExecute()
         {
             try
             {
-                AddReport addReport = new AddReport(Maintenace);
-                addReport.ShowDialog();
-
-
-                
-
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
-        }
-        private bool CanAddReportExecute()
-        {
-
-            return true;
-        }
-
-        private ICommand showReports;
-        public ICommand ShowReports
-        {
-            get
-            {
-                if (showReports == null)
-                {
-                    showReports = new RelayCommand(param => ShowReportsExecute(),
-                        param => CanShowReportsExecute());
-                }
-                return showReports;
-            }
-        }
-
-        private void ShowReportsExecute()
-        {
-            try
-            {
-                Reports reports = new Reports(Maintenace);
-                reports.Show();
+                ClinicMaintenanceMain adminView =
+                    new ClinicMaintenanceMain(Maintenace);
+                adminView.Show();
                 view.Close();
-
-
-
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString());
             }
         }
-        private bool CanShowReportsExecute()
+        private bool CanBackExecute()
         {
-
             return true;
         }
 
