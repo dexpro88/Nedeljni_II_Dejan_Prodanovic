@@ -15,49 +15,65 @@ using System.Windows.Input;
 
 namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
 {
-    class AddClinicManagerViewModel:ViewModelBase
+    class AddClinicPatientViewModel:ViewModelBase
     {
-        AddClinicManager view;
+        AddClinicPatient view;
         IUserService userService;
         IClinicAminService adminService;
+        IClinicMaintenaceService maintenaceService;
         IClinicManagerService managerService;
-        IClinicService clinicService;
+        IPatientService patientService;
+        IDoctorService doctorService;
 
-        public AddClinicManagerViewModel(AddClinicManager addClinicManager)
+
+        public AddClinicPatientViewModel(AddClinicPatient addClinicPatient)
         {
-            view = addClinicManager;
+            view = addClinicPatient;
 
 
             adminService = new ClinicAminService();
             userService = new UserService();
+            maintenaceService = new ClinicMaintenaceService();
             managerService = new ClinicManagerService();
-            clinicService = new ClinicService();
+            patientService = new PatientService();
+            doctorService = new DoctorService();
 
             User = new tblUser();
-            Manager = new tblClinicManager();
+            Patient = new tblClinicPatient();
 
-            FloorList = new List<string>();
-            tblClinicInstitution clinic = clinicService.GetClinic();
-            for (int i = 0; i < clinic.NumberOdFloors; i++)
+            Doctors = doctorService.GetDoctors();
+           
+
+            if (Doctors.Count == 0)
             {
-                int f = i + 1;
-                FloorList.Add(f.ToString());
+                NoDoctors = Visibility.Visible;
             }
+            else
+            {
+                NoDoctors = Visibility.Hidden;
+            }
+
+            
+
         }
 
-        public bool adminCreated = false;
+           
 
-        private List<string> floorList;
-        public List<string> FloorList
+        List<tblClinicDoctor> Doctors;
+       
+
+         
+        private Visibility noDoctors;
+        public Visibility NoDoctors
         {
             get
             {
-                return floorList;
+                return noDoctors;
             }
             set
             {
-                floorList = value;
-                OnPropertyChanged("FloorList");
+                noDoctors = value;
+                OnPropertyChanged("NoDoctors");
             }
         }
 
@@ -74,21 +90,24 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
                 OnPropertyChanged("User");
             }
         }
-        private tblClinicManager manager;
-        public tblClinicManager Manager
+
+        private tblClinicPatient patient;
+        public tblClinicPatient Patient
         {
             get
             {
-                return manager;
+                return patient;
             }
             set
             {
-                manager = value;
-                OnPropertyChanged("Manager");
+                patient = value;
+                OnPropertyChanged("Patient");
             }
         }
 
         
+
+         
         private string gender = "male";
         public string Gender
         {
@@ -100,39 +119,13 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
             }
         }
 
-        private string floor;
-        public string Floor
-        {
-            get { return floor; }
-            set
-            {
-                floor = value;
-                OnPropertyChanged("Floor");
-            }
-        }
-
         private DateTime dateOfBirth = DateTime.Now;
         public DateTime DateOfBirth
         {
             get { return dateOfBirth; }
             set { dateOfBirth = value; OnPropertyChanged("DateOfBirth"); }
         }
-
-        private tblClinicMaintenace maintenace;
-        public tblClinicMaintenace Maintenace
-        {
-            get
-            {
-                return maintenace;
-            }
-            set
-            {
-                maintenace = value;
-                OnPropertyChanged("Maintenace");
-            }
-        }
-
-
+ 
 
         private ICommand save;
         public ICommand Save
@@ -153,7 +146,7 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
             {
 
 
-                if (!ValidationClass.IsIDCardNumberValid(User.IDCardNumber))
+                if (!ValidationClass.IsHealthCardNumber(Patient.HealthCardNumber))
                 {
                     MessageBox.Show("IDCardNumber is not valid");
                     return;
@@ -180,6 +173,19 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
                     MessageBox.Show(str1);
                     return;
                 }
+
+                tblClinicPatient patientInDb =
+                    patientService.GetPatientByHealthCardNumber(Patient.HealthCardNumber);
+
+                if (patientInDb != null)
+                {
+                    string str1 = string.Format("Patient with this HealthCardNumber exists\n" +
+                        "Enter another HealthCardNumber");
+                    MessageBox.Show(str1);
+                    return;
+                }
+
+                
                 var passwordBox = parameter as PasswordBox;
                 var password = passwordBox.Password;
 
@@ -191,36 +197,15 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
                 User.Password = encryptedString;
                 User = userService.AddUser(User);
 
-                if (Manager.MaxNumberOfDoctors == null)
-                {
-                    string str1 = string.Format("Invalid input for MaxNumberOfDoctors " +
-                        "\n" +
-                        "Enter integer number");
-                    MessageBox.Show(str1);
-                    return;
-                }
 
+                Patient.UserID = User.UserID;
+                Patient.HealthAssuranceExpiryDate = DateTime.Today.AddYears(5);
+                patientService.AddPatient(Patient);
 
-                if (Manager.MaxNumberOfDoctors == null)
-                {
-                    string str1 = string.Format("Invalid input for MinNumberOdRooms " +
-                        "\n" +
-                        "Enter integer number");
-                    MessageBox.Show(str1);
-                    return;
-                }
-
-                
-                //tblClinicManager newManager = new tblClinicManager();
-                Manager.UserID = User.UserID;
-                Manager.ManagerFloor = Floor;
-
-                managerService.AddManager(Manager);
-
-                string str = string.Format("You added Clinic Manager");
+                string str = string.Format("You added Patient");
                 MessageBox.Show(str);
 
-                adminCreated = true;
+               
                 view.Close();
 
             }
@@ -236,7 +221,8 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
             if (String.IsNullOrEmpty(User.FullName) || String.IsNullOrEmpty(User.IDCardNumber)
                 || String.IsNullOrEmpty(User.Nationality)
                 || String.IsNullOrEmpty(User.Username) || parameter as PasswordBox == null
-                 || String.IsNullOrEmpty((parameter as PasswordBox).Password))
+                || String.IsNullOrEmpty((parameter as PasswordBox).Password)
+                || String.IsNullOrEmpty(Patient.HealthCardNumber))
             {
                 return false;
             }
@@ -306,36 +292,6 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
         }
 
 
-
-        private ICommand chooseHasRightToExpandClinic;
-        public ICommand ChooseHasRightToExpandClinic
-        {
-            get
-            {
-                if (chooseHasRightToExpandClinic == null)
-                {
-                    chooseHasRightToExpandClinic = new RelayCommand(ChooseHasRightToExpandClinicExecute,
-                        CanChooseHasRightToExpandClinicExecute);
-                }
-                return chooseGender;
-            }
-        }
-
-        private void ChooseHasRightToExpandClinicExecute(object parameter)
-        {
-            Gender = (string)parameter;
-        }
-
-        private bool CanChooseHasRightToExpandClinicExecute(object parameter)
-        {
-            if (parameter != null)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
+       
     }
 }

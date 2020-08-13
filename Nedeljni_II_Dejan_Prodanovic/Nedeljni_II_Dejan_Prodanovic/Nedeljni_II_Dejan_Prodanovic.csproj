@@ -133,6 +133,7 @@
     <Compile Include="ViewModel\AddClinicDoctorViewModel.cs" />
     <Compile Include="ViewModel\AddClinicMaintenanceViewModel.cs" />
     <Compile Include="ViewModel\AddClinicManagerViewModel.cs" />
+    <Compile Include="ViewModel\AddClinicPatientViewModel.cs" />
     <Compile Include="ViewModel\ClinicAdminFirstLoginViewModel.cs" />
     <Compile Include="ViewModel\ClinicAdminMainViewModel.cs" />
     <Compile Include="ViewModel\ClinicDoctorsViewModel.cs" />
@@ -144,6 +145,7 @@
     <Compile Include="ViewModel\Doctor.cs" />
     <Compile Include="ViewModel\EditClinicViewModel.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
+    <Compile Include="ViewModel\Patient.cs" />
     <Compile Include="ViewModel\PredifinedAccountViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="View\AddClinicAdministrator.xaml.cs">
@@ -157,6 +159,9 @@
     </Compile>
     <Compile Include="View\AddClinicManager.xaml.cs">
       <DependentUpon>AddClinicManager.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\AddClinicPatient.xaml.cs">
+      <DependentUpon>AddClinicPatient.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\ClinicAdminFirstLogin.xaml.cs">
       <DependentUpon>ClinicAdminFirstLogin.xaml</DependentUpon>
@@ -182,11 +187,17 @@
     <Compile Include="View\ClinicPatients.xaml.cs">
       <DependentUpon>ClinicPatients.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\DoctorMainView.xaml.cs">
+      <DependentUpon>DoctorMainView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\EditClinic.xaml.cs">
       <DependentUpon>EditClinic.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\PatientMainView.xaml.cs">
+      <DependentUpon>PatientMainView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\PredifinedAccount.xaml.cs">
       <DependentUpon>PredifinedAccount.xaml</DependentUpon>
@@ -222,6 +233,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\AddClinicPatient.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\ClinicAdminFirstLogin.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -254,11 +269,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\DoctorMainView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\EditClinic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\LoginView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\PatientMainView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

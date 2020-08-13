@@ -5,8 +5,68 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Nedeljni_II_Dejan_Prodanovic.View"
         mc:Ignorable="d"
-        Title="ClinicMaintenanceMain" Height="450" Width="800">
+        Title="ClinicMaintenanceMain"
+        WindowStartupLocation="CenterScreen"
+        Height="350"
+        Width="650"
+        Background="#2e3137">
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Margin"
+                    Value="10,10,10,10" />
+            <Setter Property="VerticalAlignment"
+                    Value="Center" />
+            <Setter Property="HorizontalAlignment"
+                    Value="Center" />
+            <Setter Property="Padding"
+                    Value="10,0,10,0" />
+            <Setter Property="Background"
+                    Value="#545d6a" />
+            <Setter Property="Width"
+                    Value="130" />
+            <Setter Property="Foreground"
+                    Value="White" />
+        </Style>
+        <Style TargetType="Label">
+            <Setter Property="VerticalAlignment"
+                    Value="Center" />
+            <Setter Property="Margin"
+                    Value="10,0,0,0" />
+            <Setter Property="FontSize"
+                    Value="20" />
+            <Setter Property="Foreground"
+                    Value="White" />
+        </Style>
+    </Window.Resources>
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="40" />
+            <RowDefinition Height="30" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="140" />
+        </Grid.ColumnDefinitions>
+        <StackPanel Visibility="{Binding ViewMainMenu, UpdateSourceTrigger=PropertyChanged}"
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Orientation="Vertical"
+                    VerticalAlignment="Center">
+            <Button Command="{Binding EditProfile}"
+                    Visibility="{Binding NoClinicAdmin, UpdateSourceTrigger=PropertyChanged}"
+                    Content="Edit Profile" />
+            <Button Command="{Binding AddReport}"
+                    Visibility="{Binding NoClinicAdmin, UpdateSourceTrigger=PropertyChanged}"
+                    Content="Add Report" />
+            <Button Command="{Binding ShowReports}"
+                    Visibility="{Binding NoClinicAdmin, UpdateSourceTrigger=PropertyChanged}"
+                    Content="Show Reports" />
+            <Button Command="{Binding Logout}"
+                    Content="Logout" />
+            <Button Command="{Binding Close}"
+                    Content="Close" />
+        </StackPanel>
     </Grid>
 </Window>

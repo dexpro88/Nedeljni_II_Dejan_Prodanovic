@@ -26,9 +26,9 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
 
             patientService = new PatientService();
 
-            ClinicPatient = new tblClinicPatient();
-            //clinicMaintenaceListDB = maintenaceService.GetvwMaintenaces();
-            //ClinicMaintenaceList = ConvertForPresentation(clinicMaintenaceListDB);
+            ClinicPatient = new vwClinicPatient();
+            ClinicPatientList = patientService.GetvwPatients();
+           
         }
 
         private tblClinicAdmin admin;
@@ -46,8 +46,8 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
         }
 
 
-        private tblClinicPatient clinicPatient;
-        public tblClinicPatient ClinicPatient
+        private vwClinicPatient clinicPatient;
+        public vwClinicPatient ClinicPatient
         {
             get
             {
@@ -62,8 +62,8 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
 
         
 
-        private List<tblClinicPatient> clinicPatientList;
-        public List<tblClinicPatient> ClinicPatientList
+        private List<vwClinicPatient> clinicPatientList;
+        public List<vwClinicPatient> ClinicPatientList
         {
             get
             {
@@ -75,6 +75,8 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
                 OnPropertyChanged("ClinicPatientList");
             }
         }
+
+         
         private ICommand addClinicPatient;
         public ICommand AddClinicPatient
         {
@@ -94,11 +96,10 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
             try
             {
 
-                //AddClinicMaintenance addClinicMaintenance = new AddClinicMaintenance();
-                //addClinicMaintenance.ShowDialog();
+                AddClinicPatient addClinicPatient = new AddClinicPatient();
+                addClinicPatient.ShowDialog();
 
-                //clinicMaintenaceListDB = maintenaceService.GetvwMaintenaces();
-                //ClinicMaintenaceList = ConvertForPresentation(clinicMaintenaceListDB);
+                ClinicPatientList = patientService.GetvwPatients();
 
 
             }
@@ -113,21 +114,21 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
             return true;
         }
 
-        private ICommand deletMaintenance;
-        public ICommand DeleteMaintenance
+        private ICommand deletePatient;
+        public ICommand DeletePatient
         {
             get
             {
-                if (deletMaintenance == null)
+                if (deletePatient == null)
                 {
-                    deletMaintenance = new RelayCommand(param => DeleteMaintenanceExecute(),
-                        param => CanDeleteMaintenanceExecute());
+                    deletePatient = new RelayCommand(param => DeletePatientExecute(),
+                        param => CanDeletePatientExecute());
                 }
-                return deletMaintenance;
+                return deletePatient;
             }
         }
 
-        private void DeleteMaintenanceExecute()
+        private void DeletePatientExecute()
         {
             try
             {
@@ -135,7 +136,7 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
                 {
 
                     MessageBoxResult result = MessageBox.Show("Are you sure that you want to " +
-                        "delete this ClinicMaintenace?" +
+                        "delete this ClinicPatient?" +
                         "", "My App",
                         MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
                     int patinetId = ClinicPatient.PatientID;
@@ -144,9 +145,8 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
                     switch (result)
                     {
                         case MessageBoxResult.Yes:
-                            //maintenaceService.DeleteMaintenace(maintenaceId);
-                            //clinicMaintenaceListDB = maintenaceService.GetvwMaintenaces();
-                            //ClinicMaintenaceList = ConvertForPresentation(clinicMaintenaceListDB);
+                            patientService.DeletePatient(patinetId);
+                            ClinicPatientList = patientService.GetvwPatients();
 
                             break;
                     }
@@ -158,7 +158,7 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
                 MessageBox.Show(ex.ToString());
             }
         }
-        private bool CanDeleteMaintenanceExecute()
+        private bool CanDeletePatientExecute()
         {
             if (ClinicPatient == null)
             {

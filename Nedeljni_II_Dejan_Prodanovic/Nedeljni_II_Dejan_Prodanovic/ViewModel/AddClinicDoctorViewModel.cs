@@ -22,6 +22,7 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
         IClinicAminService adminService;
         IClinicMaintenaceService maintenaceService;
         IClinicManagerService managerService;
+        IDoctorService doctorService;
 
         public AddClinicDoctorViewModel(AddClinicDoctor addClinicDoctor)
         {
@@ -32,11 +33,25 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
             userService = new UserService();
             maintenaceService = new ClinicMaintenaceService();
             managerService = new ClinicManagerService();
+            doctorService = new DoctorService();
             User = new tblUser();
+            Doctor = new tblClinicDoctor();
 
             ManagerList = managerService.GetvwManagers();
             ManagerListToPresent = new List<string>();
             CreateManagerDictionary();
+
+            if (ManagerList.Count == 0)
+            {
+                NoManagers = Visibility.Visible;
+            }
+            else
+            {
+                NoManagers = Visibility.Hidden;
+            }
+
+            ShiftList = new List<string>() { "First","Second","Third"};
+            
         }
 
         List<vwClinicManager> ManagerList;
@@ -56,6 +71,33 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
             }
         }
 
+        private string manager;
+        public string Manager
+        {
+            get
+            {
+                return manager;
+            }
+            set
+            {
+                manager = value;
+                OnPropertyChanged("Manager");
+            }
+        }
+        private Visibility noManagers;
+        public Visibility NoManagers
+        {
+            get
+            {
+                return noManagers;
+            }
+            set
+            {
+                noManagers = value;
+                OnPropertyChanged("NoManagers");
+            }
+        }
+
         private tblUser user;
         public tblUser User
         {
@@ -70,7 +112,47 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
             }
         }
 
-         
+        private tblClinicDoctor doctor;
+        public tblClinicDoctor Doctor
+        {
+            get
+            {
+                return doctor;
+            }
+            set
+            {
+                doctor = value;
+                OnPropertyChanged("Doctor");
+            }
+        }
+
+        private List<string> shiftList;
+        public List<string> ShiftList
+        {
+            get
+            {
+                return shiftList;
+            }
+            set
+            {
+                shiftList = value;
+                OnPropertyChanged("ShiftList");
+            }
+        }
+
+        private string shift;
+        public string Shift
+        {
+            get
+            {
+                return shift;
+            }
+            set
+            {
+                shift = value;
+                OnPropertyChanged("Shift");
+            }
+        }
         private string gender = "male";
         public string Gender
         {
@@ -128,7 +210,18 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
                     return;
                 }
 
+                if (!ValidationClass.IsUniqueNumberValdi(Doctor.UniqueNumber))
+                {
+                    MessageBox.Show("UniqueNumber is not valid");
+                    return;
+                }
 
+
+                if (!ValidationClass.IsAccountNumberValid(Doctor.AccountNumber))
+                {
+                    MessageBox.Show("AccountNumber is not valid");
+                    return;
+                }
 
                 tblUser userInDb = userService.GetUserByUserName(User.Username);
 
@@ -149,6 +242,29 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
                     MessageBox.Show(str1);
                     return;
                 }
+
+                tblClinicDoctor doctorInDb = 
+                    doctorService.GetDoctorByAccountNumber(Doctor.AccountNumber);
+
+                if (doctorInDb != null)
+                {
+                    string str1 = string.Format("Doctor with this AccountNumber exists\n" +
+                        "Enter another AccountNumber");
+                    MessageBox.Show(str1);
+                    return;
+                }
+
+                doctorInDb = doctorService.GetDoctorByUniqueNumber(Doctor.UniqueNumber);
+
+                if (doctorInDb != null)
+                {
+                    string str1 = string.Format("Doctor with this UniqueNumber exists\n" +
+                        "Enter another UniqueNumber");
+                    MessageBox.Show(str1);
+                    return;
+                }
+
+               
                 var passwordBox = parameter as PasswordBox;
                 var password = passwordBox.Password;
 
@@ -160,14 +276,28 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
                 User.Password = encryptedString;
                 User = userService.AddUser(User);
 
-                tblClinicMaintenace newMaintenace = new tblClinicMaintenace();
+                vwClinicManager manPom = managerService.GetManagerByManagerId(managerDict[Manager]);
+                if (managerService.GetDoctorsOfManager(managerDict[Manager]).Count==
+                    manPom.MaxNumberOfDoctors)
+                {
+                    string str1 = string.Format("You can't choose this manager\n" +
+                        "He can't have more doctors under his lead");
+                    MessageBox.Show("");
+                    return;
+                }
+              
 
-                
 
-                newMaintenace.UserID = User.UserID;
+                Doctor.DoctorShift = Shift;
+                Doctor.ManagerID = managerDict[Manager];
 
-                maintenaceService.AddMaintenace(newMaintenace);
-                string str = string.Format("You added Clinic Maintenace");
+
+
+                Doctor.UserID = User.UserID;
+
+                doctorService.AddDoctor(Doctor);
+
+                string str = string.Format("You added Doctor");
                 MessageBox.Show(str);
 
                 adminCreated = true;
@@ -186,7 +316,10 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
             if (String.IsNullOrEmpty(User.FullName) || String.IsNullOrEmpty(User.IDCardNumber)
                 || String.IsNullOrEmpty(User.Nationality)
                 || String.IsNullOrEmpty(User.Username) || parameter as PasswordBox == null
-                 || String.IsNullOrEmpty((parameter as PasswordBox).Password))
+                || String.IsNullOrEmpty((parameter as PasswordBox).Password) 
+                ||String.IsNullOrEmpty(Doctor.Sector)|| String.IsNullOrEmpty(Doctor.AccountNumber)
+                || String.IsNullOrEmpty(Doctor.UniqueNumber)|| String.IsNullOrEmpty(Manager)
+                || String.IsNullOrEmpty(Shift))
             {
                 return false;
             }

@@ -37,6 +37,83 @@ namespace Nedeljni_II_Dejan_Prodanovic.Service
             }
         }
 
+        public void DeletePatient(int patientId)
+        {
+            try
+            {
+                using (MyClinicDBEntities context = new MyClinicDBEntities())
+                {
+                    tblClinicPatient patientToDelete = (from u in context.tblClinicPatients
+                                                      where u.PatientID == patientId
+                                                        select u).First();
+
+                    int userId = (int)patientToDelete.UserID;
+
+                    tblUser userToDelete = (from u in context.tblUsers
+                                            where u.UserID == userId
+                                            select u).First();
+
+                    context.tblClinicPatients.Remove(patientToDelete);
+                    context.tblUsers.Remove(userToDelete);
+
+                    context.SaveChanges();
+
+
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Exception" + ex.Message.ToString());
+            }
+        }
+
+        
+
+        public tblClinicPatient GetPatientByHealthCardNumber(string healthCardNumber)
+        {
+            try
+            {
+                using (MyClinicDBEntities context = new MyClinicDBEntities())
+                {
+
+
+                    tblClinicPatient patient = (from x in context.tblClinicPatients
+                                              where x.HealthCardNumber.Equals(healthCardNumber)
+
+                                              select x).First();
+
+                    return patient;
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Exception" + ex.Message.ToString());
+                return null;
+            }
+        }
+
+        public vwClinicPatient GetPatientByUserId(int userId)
+        {
+            try
+            {
+                using (MyClinicDBEntities context = new MyClinicDBEntities())
+                {
+
+
+                    vwClinicPatient patient = (from x in context.vwClinicPatients
+                                             where x.UserID == userId
+                                             select x).First();
+
+                    return patient;
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Exception" + ex.Message.ToString());
+                return null;
+            }
+        }
+
         public List<tblClinicPatient> GetPatients()
         {
             try

@@ -55,14 +55,14 @@
                         Background="#545d6a"
                         Foreground="White"
                         FontSize="18" />
-                <Button Command="{Binding Register}"
+                <!--<Button Command="{Binding Register}"
                         Width="80"
                         CommandParameter="{Binding ElementName=passwordBox}"
                         Content="Register"
                         Margin="30 25"
                         Background="#545d6a"
                         Foreground="White"
-                        FontSize="18" />
+                        FontSize="18" />-->
             </StackPanel>
         </StackPanel>
     </Border>

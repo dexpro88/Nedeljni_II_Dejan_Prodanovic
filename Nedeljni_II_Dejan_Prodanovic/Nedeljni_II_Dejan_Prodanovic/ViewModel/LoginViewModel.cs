@@ -23,6 +23,8 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
         IClinicAminService adminService;
         IClinicMaintenaceService maintenaceService;
         IClinicManagerService managerService;
+        IDoctorService doctorService;
+        IPatientService patientService;
 
         public LoginViewModel(LoginView loginView)
         {
@@ -32,6 +34,8 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
             adminService = new ClinicAminService();
             maintenaceService = new ClinicMaintenaceService();
             managerService = new ClinicManagerService();
+            doctorService = new DoctorService();
+            patientService = new PatientService();
         }
 
         private string userName;
@@ -150,36 +154,34 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
                     return;
 
                 }
+
+                vwClinicDoctor doctor = doctorService.GetDoctorByUserId(user.UserID);
+
+                if (doctor != null)
+                {
+
+                    DoctorMainView doctorMainView = new DoctorMainView();
+                    view.Close();
+                    doctorMainView.Show();
+
+                    return;
+
+                }
+
+                vwClinicPatient patient = patientService.GetPatientByUserId(user.UserID);
+
+                if (patient != null)
+                {
+
+                    PatientMainView patientMainView = new PatientMainView();
+                    view.Close();
+                    patientMainView.Show();
+
+                    return;
+
+                }
             }
-            //    tblManager manager = managerService.GetManagerByUserId(user.UserID);
-
-            //    if (manager != null)
-            //    {
-            //        if (string.IsNullOrEmpty(manager.ResponsibilityLevel))
-            //        {
-            //            string str1 = string.Format("You can not login\nAdmin has not gave you" +
-            //                " responsibility level yet");
-            //            MessageBox.Show(str1);
-            //            return;
-            //        }
-            //        ManagerMainView managerMainView = new ManagerMainView(manager);
-            //        managerMainView.Show();
-            //        view.Close();
-            //        return;
-            //    }
-            //    tblEmployee employee = employeeService.GetEmployeeByUserId(user.UserID);
-
-            //    if (employee != null)
-            //    {
-
-            //        EmployeeMainView employeeMainView = new EmployeeMainView(employee);
-            //        employeeMainView.Show();
-            //        view.Close();
-            //        return;
-            //    }
-
-            //    MessageBox.Show("Wrong username or password");
-            //}
+            
 
             else
             {

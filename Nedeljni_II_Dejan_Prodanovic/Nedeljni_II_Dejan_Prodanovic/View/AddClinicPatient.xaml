@@ -1,11 +1,11 @@
-﻿<Window x:Class="Nedeljni_II_Dejan_Prodanovic.View.AddClinicDoctor"
+﻿<Window x:Class="Nedeljni_II_Dejan_Prodanovic.View.AddClinicPatient"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Nedeljni_II_Dejan_Prodanovic.View"
         mc:Ignorable="d"
-        Title="AddClinicDoctor"
+        Title="AddClinicPatient"
         Height="740"
         Width="400"
         Background="#2e3137"
@@ -52,10 +52,12 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="30" />
         </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0" Orientation="Vertical"
-                    Visibility="{Binding NoManagers, UpdateSourceTrigger=PropertyChanged}">
-            <Label FontSize="20" Content="You can not create doctor"/>
-            <Label FontSize="20">There are no managers in database</Label>
+        <StackPanel Grid.Row="0"
+                    Orientation="Vertical"
+                    Visibility="{Binding NoDoctors, UpdateSourceTrigger=PropertyChanged}">
+            <Label FontSize="20"
+                   Content="You can not create patient" />
+            <Label FontSize="20">There are no doctors in database</Label>
         </StackPanel>
         <StackPanel Orientation="Vertical"
                     Grid.Row="1"
@@ -98,26 +100,8 @@
                         SelectedDate="{Binding DateOfBirth}" />
             <Label Content="Nationlity:" />
             <TextBox Text="{Binding User.Nationality}" />
-            <Label Content="UniqueNumber (5 digits):" />
-            <TextBox Text="{Binding Doctor.UniqueNumber}" />
-            <Label Content="AccountNumber (9 digits):" />
-            <TextBox Text="{Binding Doctor.AccountNumber}" />
-            <Label Content="Sector:" />
-            <TextBox Text="{Binding Doctor.Sector}" />
-            <Label Content="Manager:" />
-            <ComboBox Name="cmbManager"
-                      Height="20"
-                      Width="200"
-                      IsEditable="True"
-                      ItemsSource="{Binding ManagerListToPresent, UpdateSourceTrigger=PropertyChanged}"
-                      SelectedItem="{Binding Manager, UpdateSourceTrigger=PropertyChanged}" />
-            <Label Content="Shift:" />
-            <ComboBox Name="cmbShift"
-                      Height="20"
-                      Width="200"
-                      IsEditable="True"
-                      ItemsSource="{Binding ShiftList, UpdateSourceTrigger=PropertyChanged}"
-                      SelectedItem="{Binding Shift, UpdateSourceTrigger=PropertyChanged}" />
+            <Label Content="HealthCardNumber (9 digits):" />
+            <TextBox Text="{Binding Patient.HealthCardNumber}" />
             <Label Content="Username:" />
             <TextBox Text="{Binding User.Username}" />
             <Label Content="Password:" />

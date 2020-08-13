@@ -17,6 +17,7 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
         ClinicDoctors view;
 
         IClinicManagerService managerService;
+        IDoctorService doctorService;
 
         public ClinicDoctorsViewModel(ClinicDoctors clinicManagers,
             tblClinicAdmin adminLogedIn)
@@ -25,11 +26,16 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
 
 
             managerService = new ClinicManagerService();
+            doctorService = new DoctorService();
 
-            ClinicManager = new vwClinicManager();
+            ClinicDoctor = new vwClinicDoctor();
+            SelectedDoctor = new Doctor();
             managerList = managerService.GetvwManagers();
-            CreateManagerDictionary();
-            //ClinicManagerList = managerService.GetvwManagers();
+
+            
+            ClinicDoctorList = doctorService.GetvwDoctors();
+            
+            DoctorList = CreateDoctorList();
         }
 
         List<vwClinicManager> managerList;
@@ -52,20 +58,33 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
         }
 
 
-        private vwClinicManager clinicManager;
-        public vwClinicManager ClinicManager
+        private vwClinicDoctor clinicDoctor;
+        public vwClinicDoctor ClinicDoctor
         {
             get
             {
-                return clinicManager;
+                return clinicDoctor;
             }
             set
             {
-                clinicManager = value;
-                OnPropertyChanged("ClinicManager");
+                clinicDoctor = value;
+                OnPropertyChanged("ClinicDoctor");
             }
         }
 
+        private List<vwClinicDoctor> clinicDoctorList;
+        public List<vwClinicDoctor> ClinicDoctorList
+        {
+            get
+            {
+                return clinicDoctorList;
+            }
+            set
+            {
+                clinicDoctorList = value;
+                OnPropertyChanged("ClinicDoctorList");
+            }
+        }
         private Doctor selectedDoctor;
         public Doctor SelectedDoctor
         {
@@ -93,6 +112,20 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
                 OnPropertyChanged("DoctorList");
             }
         }
+
+        private Doctor doctor;
+        public Doctor Doctor
+        {
+            get
+            {
+                return doctor;
+            }
+            set
+            {
+                doctor = value;
+                OnPropertyChanged("Doctor");
+            }
+        }
         private ICommand addClinicDoctor;
         public ICommand AddClinicDoctor
         {
@@ -115,7 +148,8 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
                 AddClinicDoctor addClinicDoctor = new AddClinicDoctor();
                 addClinicDoctor.ShowDialog();
 
-                //ClinicManagerList = managerService.GetvwManagers();
+                ClinicDoctorList = doctorService.GetvwDoctors();
+                DoctorList = CreateDoctorList();
 
 
             }
@@ -148,21 +182,24 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
         {
             try
             {
-                if (ClinicManager != null)
+                if (SelectedDoctor != null)
                 {
 
                     MessageBoxResult result = MessageBox.Show("Are you sure that you want to " +
-                        "delete this ClinicMaintenace?" +
+                        "delete this ClinicDoctor?" +
                         "", "My App",
                         MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
-                    int maintenaceId = ClinicManager.ManagerID;
+                    int doctorID = SelectedDoctor.DoctorID;
 
+                    //MessageBox.Show(doctorID.ToString());
 
                     switch (result)
                     {
                         case MessageBoxResult.Yes:
-                            //maintenaceService.DeleteMaintenace(maintenaceId);
-                            //ClinicManagerList = managerService.GetvwManagers();
+                            doctorService.DeleteDoctor(doctorID);
+                            ClinicDoctorList = doctorService.GetvwDoctors();
+                            DoctorList = CreateDoctorList();
+                           
 
                             break;
                     }
@@ -176,7 +213,7 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
         }
         private bool CanDeletManagerExecute()
         {
-            if (ClinicManager == null)
+            if (SelectedDoctor == null)
             {
                 return false;
             }
@@ -278,14 +315,42 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
             return true;
         }
 
-        private void CreateManagerDictionary()
+        private List<Doctor> CreateDoctorList()
         {
-            foreach (var item in managerList)
+            List<Doctor> newList = new List<Doctor>();
+            foreach (var item in ClinicDoctorList)
             {
-                string str = item.FullName + " " + item.IDCardNumber;
-                managerDict.Add(str,item.ManagerID);
-                
+
+                Doctor doctor = new Doctor();
+                doctor.UniqueNumber = item.UniqueNumber;
+                doctor.AccountNumber = item.AccountNumber;
+                doctor.DoctorShift = item.DoctorShift;
+                doctor.RecievesPatients = item.RecievesPatients;
+                doctor.Sector = item.Sector;
+                doctor.ManagerID = item.ManagerID;
+                doctor.UserID = item.UserID;
+                doctor.DoctorID = item.DoctorID;
+                doctor.IDCardNumber = item.IDCardNumber;
+                doctor.FullName = item.FullName;
+                doctor.Gender = item.Gender;
+                doctor.DateOfBirth = item.DateOfBirth;
+                doctor.Nationality = item.Nationality;
+                doctor.Username = item.Username;
+
+                vwClinicManager manager =
+                    managerService.GetManagerByManagerId((int)doctor.ManagerID);
+
+                doctor.ManagerFullName = manager.FullName;
+                doctor.ManagerIDCardNumber = manager.IDCardNumber;
+
+                newList.Add(doctor);
             }
-        }
+
+
+            return newList;
+
+
+
+    }
     }
 }

@@ -67,6 +67,49 @@ namespace Nedeljni_II_Dejan_Prodanovic.Service
             }
         }
 
+        public List<tblClinicDoctor> GetDoctorsOfManager(int managerId)
+        {
+            try
+            {
+                using (MyClinicDBEntities context = new MyClinicDBEntities())
+                {
+                    List<tblClinicDoctor> list = new List<tblClinicDoctor>();
+                    list = (from x in context.tblClinicDoctors
+                            where x.ManagerID == managerId
+                            select x).ToList();
+
+                    return list;
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Exception" + ex.Message.ToString());
+                return null;
+            }
+        }
+
+        public vwClinicManager GetManagerByManagerId(int managerId)
+        {
+            try
+            {
+                using (MyClinicDBEntities context = new MyClinicDBEntities())
+                {
+
+
+                    vwClinicManager manager = (from x in context.vwClinicManagers
+                                               where x.ManagerID == managerId
+                                               select x).First();
+
+                    return manager;
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Exception" + ex.Message.ToString());
+                return null;
+            }
+        }
+
         public vwClinicManager GetManagerByUserId(int userId)
         {
             try

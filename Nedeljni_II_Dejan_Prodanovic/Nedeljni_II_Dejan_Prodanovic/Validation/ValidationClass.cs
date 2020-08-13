@@ -124,5 +124,40 @@ namespace Nedeljni_II_Dejan_Prodanovic.Validation
 
 
         }
+        public static bool IsAccountNumberValid(string AccountNumber)
+        {
+            if (AccountNumber.Length != 9)
+            {
+                return false;
+            }
+
+            long helpVar;
+
+            return long.TryParse(AccountNumber, out helpVar);
+        }
+
+        public static bool IsUniqueNumberValdi(string UniqueNumber)
+        {
+            if (UniqueNumber.Length != 5)
+            {
+                return false;
+            }
+
+            long helpVar;
+
+            return long.TryParse(UniqueNumber, out helpVar);
+        }
+
+        public static bool IsHealthCardNumber(string HealthCardNumber)
+        {
+            if (HealthCardNumber.Length != 9)
+            {
+                return false;
+            }
+
+            long helpVar;
+
+            return long.TryParse(HealthCardNumber, out helpVar);
+        }
     }
 }

@@ -12,7 +12,8 @@ namespace Nedeljni_II_Dejan_Prodanovic.Service
         List<Model.tblClinicPatient> GetPatients();
         List<vwClinicPatient> GetvwPatients();
         tblClinicPatient AddPatient(tblClinicPatient patient);
-        //void DeleteManager(int managerId);
-        //vwClinicManager GetManagerByUserId(int userId);
+        tblClinicPatient GetPatientByHealthCardNumber(string healthCardNumber);
+        void DeletePatient(int patientId);
+        vwClinicPatient GetPatientByUserId(int userId);
     }
 }

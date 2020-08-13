@@ -1,5 +1,4 @@
-﻿using Nedeljni_II_Dejan_Prodanovic.Model;
-using Nedeljni_II_Dejan_Prodanovic.ViewModel;
+﻿using Nedeljni_II_Dejan_Prodanovic.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,21 +16,14 @@ using System.Windows.Shapes;
 namespace Nedeljni_II_Dejan_Prodanovic.View
 {
     /// <summary>
-    /// Interaction logic for ClinicMaintenanceMain.xaml
+    /// Interaction logic for AddClinicPatient.xaml
     /// </summary>
-    public partial class ClinicMaintenanceMain : Window
+    public partial class AddClinicPatient : Window
     {
-        public ClinicMaintenanceMain()
+        public AddClinicPatient()
         {
             InitializeComponent();
+            DataContext = new AddClinicPatientViewModel(this);
         }
-
-        public ClinicMaintenanceMain(vwClinicMaintenace maintenace)
-        {
-            InitializeComponent();
-            DataContext = new ClinicMaintenanceMainViewModel(this, maintenace);
-        }
-
-
     }
 }
