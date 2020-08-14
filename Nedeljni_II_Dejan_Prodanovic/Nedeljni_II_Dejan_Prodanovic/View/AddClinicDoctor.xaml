@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Nedeljni_II_Dejan_Prodanovic.View"
         mc:Ignorable="d"
         Title="AddClinicDoctor"
-        Height="740"
+        Height="770"
         Width="400"
         Background="#2e3137"
         WindowStartupLocation="CenterScreen">
@@ -54,8 +54,8 @@
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Orientation="Vertical"
                     Visibility="{Binding NoManagers, UpdateSourceTrigger=PropertyChanged}">
-            <Label FontSize="20" Content="You can not create doctor"/>
-            <Label FontSize="20">There are no managers in database</Label>
+           
+            <Label FontSize="15">There are no managers in database.Can't create</Label>
         </StackPanel>
         <StackPanel Orientation="Vertical"
                     Grid.Row="1"
@@ -96,10 +96,28 @@
                         Grid.Row="17"
                         Margin="10"
                         SelectedDate="{Binding DateOfBirth}" />
-            <Label Content="Nationlity:" />
-            <TextBox Text="{Binding User.Nationality}" />
+          
             <Label Content="UniqueNumber (5 digits):" />
             <TextBox Text="{Binding Doctor.UniqueNumber}" />
+           
+            <Label Content="Recieves Patients:" />
+            <StackPanel Orientation="Horizontal"
+                        Margin="10">
+                <RadioButton Width="50"
+                             Content="yes"
+                             Command="{Binding Path=ChooseRecievePatients}"
+                             Name="cbYes"
+                             Foreground="White"
+                             CommandParameter="{Binding ElementName=cbYes, Path=Content}"
+                             IsChecked="True"></RadioButton>
+                <RadioButton Width="60"
+                             Content="no"
+                             Command="{Binding Path=ChooseRecievePatients}"
+                             Name="cbNo"
+                             Foreground="White"
+                             CommandParameter="{Binding ElementName=cbNo, Path=Content}"></RadioButton>
+                 
+            </StackPanel>
             <Label Content="AccountNumber (9 digits):" />
             <TextBox Text="{Binding Doctor.AccountNumber}" />
             <Label Content="Sector:" />

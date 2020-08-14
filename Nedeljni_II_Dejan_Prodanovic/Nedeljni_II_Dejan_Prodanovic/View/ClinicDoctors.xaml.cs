@@ -30,5 +30,11 @@ namespace Nedeljni_II_Dejan_Prodanovic.View
             InitializeComponent();
             DataContext = new ClinicDoctorsViewModel(this, admin);
         }
+
+        public ClinicDoctors(vwClinicManager manager)
+        {
+            InitializeComponent();
+            DataContext = new ClinicDoctorsViewModel(this, manager);
+        }
     }
 }

@@ -147,7 +147,7 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
                 if (manager != null)
                 {
 
-                    ClinicManagerMain managerMain = new ClinicManagerMain();
+                    ClinicManagerMain managerMain = new ClinicManagerMain(manager);
                     view.Close();
                     managerMain.Show();
 
@@ -173,7 +173,7 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
                 if (patient != null)
                 {
 
-                    PatientMainView patientMainView = new PatientMainView();
+                    PatientMainView patientMainView = new PatientMainView(patient);
                     view.Close();
                     patientMainView.Show();
 

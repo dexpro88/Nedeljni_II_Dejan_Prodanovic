@@ -164,6 +164,17 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
             }
         }
 
+        private string recievePatients = "yes";
+        public string RecievePatients
+        {
+            get { return recievePatients; }
+            set
+            {
+                recievePatients = value;
+                OnPropertyChanged("RecievePatients");
+            }
+        }
+
         private DateTime dateOfBirth = DateTime.Now;
         public DateTime DateOfBirth
         {
@@ -291,7 +302,14 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
                 Doctor.DoctorShift = Shift;
                 Doctor.ManagerID = managerDict[Manager];
 
-
+                if (RecievePatients.Equals("yes"))
+                {
+                    Doctor.RecievesPatients = true;
+                }
+                else
+                {
+                    Doctor.RecievesPatients = false;
+                }
 
                 Doctor.UserID = User.UserID;
 
@@ -314,7 +332,7 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
         {
 
             if (String.IsNullOrEmpty(User.FullName) || String.IsNullOrEmpty(User.IDCardNumber)
-                || String.IsNullOrEmpty(User.Nationality)
+                //|| String.IsNullOrEmpty(User.Nationality)
                 || String.IsNullOrEmpty(User.Username) || parameter as PasswordBox == null
                 || String.IsNullOrEmpty((parameter as PasswordBox).Password) 
                 ||String.IsNullOrEmpty(Doctor.Sector)|| String.IsNullOrEmpty(Doctor.AccountNumber)
@@ -387,7 +405,37 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
                 return false;
             }
         }
+        private ICommand chooseRecievePatients;
+        public ICommand ChooseRecievePatients
+        {
+            get
+            {
+                if (chooseRecievePatients == null)
+                {
+                    chooseRecievePatients = new RelayCommand(ChooseRecievePatientsExecute,
+                        CanChooseRecievePatientsExecute);
+                }
+                return chooseRecievePatients;
+            }
+        }
 
+        private void ChooseRecievePatientsExecute(object parameter)
+        {
+            RecievePatients = (string)parameter;
+
+        }
+
+        private bool CanChooseRecievePatientsExecute(object parameter)
+        {
+            if (parameter != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
 
         private void CreateManagerDictionary()
         {

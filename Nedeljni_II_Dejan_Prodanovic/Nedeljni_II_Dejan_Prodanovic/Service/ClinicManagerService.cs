@@ -169,5 +169,39 @@ namespace Nedeljni_II_Dejan_Prodanovic.Service
                 return null;
             }
         }
+
+        public void PunishManager(int managerId)
+        {
+            try
+            {
+                using (MyClinicDBEntities context = new MyClinicDBEntities())
+                {
+                    tblClinicManager managerToEdit = (from u in context.tblClinicManagers
+                                                        where u.ManagerID == managerId
+                                                        select u).First();
+
+
+
+                    if (managerToEdit.NumberOfOmissions==null)
+                    {
+                        managerToEdit.NumberOfOmissions = 1;
+                    }
+                    else
+                    {
+                        managerToEdit.NumberOfOmissions++;
+                    }
+                    context.SaveChanges();
+                    
+
+                    
+
+
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Exception" + ex.Message.ToString());
+            }
+        }
     }
 }

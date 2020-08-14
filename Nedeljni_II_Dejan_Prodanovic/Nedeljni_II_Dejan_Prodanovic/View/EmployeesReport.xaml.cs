@@ -1,5 +1,4 @@
-﻿using Nedeljni_II_Dejan_Prodanovic.Model;
-using Nedeljni_II_Dejan_Prodanovic.ViewModel;
+﻿using Nedeljni_II_Dejan_Prodanovic.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,20 +16,14 @@ using System.Windows.Shapes;
 namespace Nedeljni_II_Dejan_Prodanovic.View
 {
     /// <summary>
-    /// Interaction logic for ClinicManagerMain.xaml
+    /// Interaction logic for EmployeesReport.xaml
     /// </summary>
-    public partial class ClinicManagerMain : Window
+    public partial class EmployeesReport : Window
     {
-        public ClinicManagerMain()
+        public EmployeesReport()
         {
             InitializeComponent();
+            DataContext = new EmployeesReportViewModel(this);
         }
-        public ClinicManagerMain(vwClinicManager manager)
-        {
-            InitializeComponent();
-            DataContext = new ClinicManagerMainViewModel(this, manager);
-        }
-
-
     }
 }

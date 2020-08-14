@@ -193,6 +193,43 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
             return true;
         }
 
+        private ICommand showEmployeesReport;
+        public ICommand ShowEmployeesReport
+        {
+            get
+            {
+                if (showEmployeesReport == null)
+                {
+                    showEmployeesReport = new RelayCommand(param => ShowEmployeesReportExecute(),
+                        param => CanShowEmployeesReportExecute());
+                }
+                return showEmployeesReport;
+            }
+        }
+
+        private void ShowEmployeesReportExecute()
+        {
+            try
+            {
+
+                EmployeesReport eEmployeesReport = new EmployeesReport();
+                eEmployeesReport.ShowDialog();
+              
+
+                
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+        private bool CanShowEmployeesReportExecute()
+        {
+
+            return true;
+        }
+
         private ICommand showClinicDoctors;
         public ICommand ShowClinicDoctors
         {

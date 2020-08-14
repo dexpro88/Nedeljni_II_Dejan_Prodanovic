@@ -16,6 +16,6 @@ namespace Nedeljni_II_Dejan_Prodanovic.Service
         vwClinicManager GetManagerByUserId(int userId);
         vwClinicManager GetManagerByManagerId(int managerId);
         List<tblClinicDoctor> GetDoctorsOfManager(int managerId);
-
+        void PunishManager(int managerId);
     }
 }

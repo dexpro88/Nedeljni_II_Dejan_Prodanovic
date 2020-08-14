@@ -73,8 +73,7 @@
                                     Binding="{Binding DateOfBirth, StringFormat='{}{0:dd/MM/yyyy}'}" />
                 <DataGridTextColumn Header="Nationality"
                                     Binding="{Binding Nationality}" />
-                <DataGridTextColumn Header="Username"
-                                    Binding="{Binding Username}" />
+                 
                 <DataGridTextColumn Header="UniqueNumber"
                                     Binding="{Binding UniqueNumber}" />
                 <DataGridTextColumn Header="AccountNumber"
@@ -83,6 +82,8 @@
                                     Binding="{Binding Sector}" />
                 <DataGridTextColumn Header="DoctorShift"
                                     Binding="{Binding DoctorShift}" />
+                <DataGridTextColumn Header="RecievesPatients"
+                                    Binding="{Binding RecievesPatients}" />
                 <DataGridTextColumn Header="ManagerFullName"
                                     Binding="{Binding ManagerFullName}" />
                 <DataGridTextColumn Header="ManagerIDCardNumber"

@@ -1,0 +1,97 @@
+﻿<Window x:Class="Nedeljni_II_Dejan_Prodanovic.View.EmployeesReport"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Nedeljni_II_Dejan_Prodanovic.View"
+        mc:Ignorable="d"
+        Title="EmployeesReport"
+        Height="700"
+        Width="400"
+        Background="#2e3137"
+        WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Margin"
+                    Value="20,0,20,0" />
+            <Setter Property="VerticalAlignment"
+                    Value="Center" />
+            <Setter Property="Padding"
+                    Value="10,0,10,0" />
+            <Setter Property="Width"
+                    Value="80" />
+            <Setter Property="Foreground"
+                    Value="White" />
+            <Setter Property="Background"
+                    Value="#545d6a" />
+            <Setter Property="FontSize"
+                    Value="12" />
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="VerticalAlignment"
+                    Value="Center" />
+            <Setter Property="Background"
+                    Value="#545d6a" />
+            <Setter Property="FontWeight"
+                    Value="Bold" />
+            <Setter Property="FontSize"
+                    Value="12" />
+            <Setter Property="Width"
+                    Value="200" />
+        </Style>
+        <Style TargetType="Label">
+            <Setter Property="FontSize"
+                    Value="12" />
+            <Setter Property="Foreground"
+                    Value="White" />
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="30" />
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0"
+                    Orientation="Horizontal">
+            <Label FontSize="20"
+                   Content="All Emplooyes " />
+        </StackPanel>
+        <StackPanel Grid.Row="1"
+                    Orientation="Vertical"
+                    HorizontalAlignment="Center">
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Number of doctors:" />
+                <TextBox Text="{Binding NumberOfDoctors}"
+                         IsReadOnly="True" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Number of patients:" />
+                <TextBox Text="{Binding NumberOfPatients}" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Number of managers:" />
+                <TextBox Text="{Binding NumberOfManagers}"
+                         IsReadOnly="True" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Number of maintenances:" />
+                <TextBox Text="{Binding NumberOfMaintenances}"
+                         IsReadOnly="True" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Average age of risk patients:" />
+                <TextBox Text="{Binding NumberOfRiskPatients}"
+                         IsReadOnly="True" />
+            </StackPanel>
+            
+        </StackPanel>
+        <StackPanel Orientation="Horizontal"
+                    HorizontalAlignment="Center"
+                    Grid.Row="3">
+            
+            <Button Command="{Binding Close}"
+                    Content="Close" />
+        </StackPanel>
+    </Grid>
+</Window>

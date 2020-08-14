@@ -64,6 +64,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Command\EventArgs.cs" />
+    <Compile Include="Command\EventRaiser.cs" />
     <Compile Include="Command\RelayCommand.cs" />
     <Compile Include="Model\ClinicDataBaseModel.Context.cs">
       <AutoGen>True</AutoGen>
@@ -141,12 +143,16 @@
     <Compile Include="ViewModel\ClinicMaintenaceViewModel.cs" />
     <Compile Include="ViewModel\ClinicMaintenance.cs" />
     <Compile Include="ViewModel\ClinicMaintenanceMainViewModel.cs" />
+    <Compile Include="ViewModel\ClinicManagerMainViewModel.cs" />
     <Compile Include="ViewModel\ClinicManagersViewModel.cs" />
     <Compile Include="ViewModel\ClinicPatientsViewModel.cs" />
     <Compile Include="ViewModel\Doctor.cs" />
     <Compile Include="ViewModel\EditClinicViewModel.cs" />
+    <Compile Include="ViewModel\EmployeesReportViewModel.cs" />
+    <Compile Include="ViewModel\ExaminationRequestViewModel.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\Patient.cs" />
+    <Compile Include="ViewModel\PatientMainViewModel.cs" />
     <Compile Include="ViewModel\PredifinedAccountViewModel.cs" />
     <Compile Include="ViewModel\Report.cs" />
     <Compile Include="ViewModel\ReportsViewModel.cs" />
@@ -198,6 +204,12 @@
     </Compile>
     <Compile Include="View\EditClinic.xaml.cs">
       <DependentUpon>EditClinic.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\EmployeesReport.xaml.cs">
+      <DependentUpon>EmployeesReport.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ExaminationReport.xaml.cs">
+      <DependentUpon>ExaminationReport.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>
@@ -287,6 +299,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\EditClinic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\EmployeesReport.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ExaminationReport.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

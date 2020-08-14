@@ -18,12 +18,14 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
 
         IClinicManagerService managerService;
         IDoctorService doctorService;
+        bool managerIsLogedIn;
+        bool adminIsLogedIn;
 
         public ClinicDoctorsViewModel(ClinicDoctors clinicManagers,
             tblClinicAdmin adminLogedIn)
         {
             view = clinicManagers;
-
+            adminIsLogedIn = true;
 
             managerService = new ClinicManagerService();
             doctorService = new DoctorService();
@@ -32,9 +34,30 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
             SelectedDoctor = new Doctor();
             managerList = managerService.GetvwManagers();
 
-            
+            Admin = adminLogedIn;
             ClinicDoctorList = doctorService.GetvwDoctors();
             
+            DoctorList = CreateDoctorList();
+        }
+
+        public ClinicDoctorsViewModel(ClinicDoctors clinicManagers,
+           vwClinicManager managerLogedIn)
+        {
+            view = clinicManagers;
+            Manager = managerLogedIn;
+
+            managerIsLogedIn = true;
+
+            managerService = new ClinicManagerService();
+            doctorService = new DoctorService();
+
+            ClinicDoctor = new vwClinicDoctor();
+            SelectedDoctor = new Doctor();
+            managerList = managerService.GetvwManagers();
+
+
+            ClinicDoctorList = doctorService.GetvwDoctors();
+
             DoctorList = CreateDoctorList();
         }
 
@@ -57,7 +80,19 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
             }
         }
 
-
+        private vwClinicManager manager;
+        public vwClinicManager Manager
+        {
+            get
+            {
+                return manager;
+            }
+            set
+            {
+                manager = value;
+                OnPropertyChanged("Manager");
+            }
+        }
         private vwClinicDoctor clinicDoctor;
         public vwClinicDoctor ClinicDoctor
         {
@@ -300,10 +335,20 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
         {
             try
             {
-                ClinicAdminMain adminView =
+                if (adminIsLogedIn)
+                {
+                    ClinicAdminMain adminView =
                     new ClinicAdminMain(Admin);
-                adminView.Show();
-                view.Close();
+                    adminView.Show();
+                    view.Close();
+                }else if (managerIsLogedIn)
+                {
+                    ClinicManagerMain managerView =
+                    new ClinicManagerMain(Manager);
+                    managerView.Show();
+                    view.Close();
+                }
+                
             }
             catch (Exception ex)
             {

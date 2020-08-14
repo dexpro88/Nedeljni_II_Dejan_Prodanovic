@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Nedeljni_II_Dejan_Prodanovic.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,11 @@ namespace Nedeljni_II_Dejan_Prodanovic.View
         public DoctorMainView()
         {
             InitializeComponent();
+        }
+        public DoctorMainView(vwClinicDoctor doctor)
+        {
+            InitializeComponent();
+           
         }
     }
 }
