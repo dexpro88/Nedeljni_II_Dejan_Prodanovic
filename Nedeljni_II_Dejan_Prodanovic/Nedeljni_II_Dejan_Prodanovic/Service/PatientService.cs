@@ -70,7 +70,7 @@ namespace Nedeljni_II_Dejan_Prodanovic.Service
 
         public void EditPatient(vwClinicPatient patient)
         {
-            MessageBox.Show(patient.UserID.ToString());
+            
             try
             {
                 using (MyClinicDBEntities context = new MyClinicDBEntities())
@@ -96,7 +96,7 @@ namespace Nedeljni_II_Dejan_Prodanovic.Service
 
                     context.SaveChanges();
 
-                    MessageBox.Show("nesto ");
+                    
 
 
                 }

@@ -28,7 +28,7 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
 
             ClinicPatient = new vwClinicPatient();
             ClinicPatientList = patientService.GetvwPatients();
-           
+            
         }
 
         private tblClinicAdmin admin;

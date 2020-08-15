@@ -149,6 +149,8 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
         {
             try
             {
+                //MessageBox.Show(Patient.PatientID.ToString());
+                //return;
 
 
                 if (!ValidationClass.IsHealthCardNumber(Patient.HealthCardNumber))
@@ -202,8 +204,9 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
                 
 
 
-                Patient.UserID = User.UserID;
+               
                 Patient.HealthAssuranceExpiryDate = DateTime.Today.AddYears(5);
+              
                 patientService.EditPatient(Patient);
 
                 string str = string.Format("You edited Patient");
