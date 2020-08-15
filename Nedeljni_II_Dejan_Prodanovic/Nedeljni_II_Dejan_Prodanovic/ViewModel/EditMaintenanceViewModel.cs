@@ -15,26 +15,16 @@ using System.Windows.Input;
 
 namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
 {
-    class AddClinicMaintenanceViewModel:ViewModelBase
+    class EditMaintenanceViewModel:ViewModelBase
     {
-        AddClinicMaintenance view;
+        EditMaintenance view;
         IUserService userService;
         IClinicAminService adminService;
         IClinicMaintenaceService maintenaceService;
+        string oldUserName;
+        string oldIdCardNumber;
 
-        public AddClinicMaintenanceViewModel(AddClinicMaintenance addClinicMaintenance)
-        {
-            view = addClinicMaintenance;
-
-
-            adminService = new ClinicAminService();
-            userService = new UserService();
-            maintenaceService = new ClinicMaintenaceService();
-
-            User = new tblUser();
-
-        }
-        public AddClinicMaintenanceViewModel(AddClinicMaintenance addClinicMaintenance,
+        public EditMaintenanceViewModel(EditMaintenance addClinicMaintenance,
             vwClinicMaintenace maintenaceToEdit)
         {
             view = addClinicMaintenance;
@@ -43,10 +33,13 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
             adminService = new ClinicAminService();
             userService = new UserService();
             maintenaceService = new ClinicMaintenaceService();
-
+            ClinicMaintenace = maintenaceToEdit;
             User = new tblUser();
 
+            oldUserName = maintenaceToEdit.Username;
+            oldIdCardNumber = maintenaceToEdit.IDCardNumber;
         }
+      
         public bool adminCreated = false;
 
         private tblUser user;
@@ -60,6 +53,20 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
             {
                 user = value;
                 OnPropertyChanged("User");
+            }
+        }
+
+        private vwClinicMaintenace clinicMaintenace;
+        public vwClinicMaintenace ClinicMaintenace
+        {
+            get
+            {
+                return clinicMaintenace;
+            }
+            set
+            {
+                clinicMaintenace = value;
+                OnPropertyChanged("ClinicMaintenace");
             }
         }
 
@@ -101,7 +108,7 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
             get { return dateOfBirth; }
             set { dateOfBirth = value; OnPropertyChanged("DateOfBirth"); }
         }
-       
+
         private tblClinicMaintenace maintenace;
         public tblClinicMaintenace Maintenace
         {
@@ -135,7 +142,7 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
             {
 
 
-                if (!ValidationClass.IsIDCardNumberValid(User.IDCardNumber))
+                if (!ValidationClass.IsIDCardNumberValid(ClinicMaintenace.IDCardNumber))
                 {
                     MessageBox.Show("IDCardNumber is not valid");
                     return;
@@ -143,9 +150,9 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
 
 
 
-                tblUser userInDb = userService.GetUserByUserName(User.Username);
+                tblUser userInDb = userService.GetUserByUserName(ClinicMaintenace.Username);
 
-                if (userInDb != null)
+                if (userInDb != null&& !userInDb.Username.Equals(oldUserName))
                 {
                     string str1 = string.Format("User with this username exists\n" +
                         "Enter another username");
@@ -153,9 +160,9 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
                     return;
                 }
 
-                userInDb = userService.GetUserByIdCardNumber(User.IDCardNumber);
+                userInDb = userService.GetUserByIdCardNumber(ClinicMaintenace.IDCardNumber);
 
-                if (userInDb != null)
+                if (userInDb != null && !userInDb.IDCardNumber.Equals(oldIdCardNumber))
                 {
                     string str1 = string.Format("User with this IDCardNumber exists\n" +
                         "Enter another IDCardNumber");
@@ -166,37 +173,37 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
                 var password = passwordBox.Password;
 
                 string encryptedString = EncryptionHelper.Encrypt(password);
-                User.Gender = Gender;
-                User.DateOfBirth = DateOfBirth;
+                ClinicMaintenace.Gender = Gender;
+                ClinicMaintenace.DateOfBirth = DateOfBirth;
 
 
-                User.Password = encryptedString;
-                User = userService.AddUser(User);
+                
+                
 
-                tblClinicMaintenace newMaintenace = new tblClinicMaintenace();
+                
 
                 if (HasRightToExpandClinic.Equals("yes"))
                 {
-                    newMaintenace.CanChooseClinicExpansionPermission = true;
+                    ClinicMaintenace.CanChooseClinicExpansionPermission = true;
                 }
                 else
                 {
-                    newMaintenace.CanChooseClinicExpansionPermission = false;
+                    ClinicMaintenace.CanChooseClinicExpansionPermission = false;
                 }
 
                 if (TakesCareOfIvalidAccess.Equals("yes"))
                 {
-                    newMaintenace.CanChooseInvalidAccess = true;
+                    ClinicMaintenace.CanChooseInvalidAccess = true;
                 }
                 else
                 {
-                    newMaintenace.CanChooseInvalidAccess = false;
+                    ClinicMaintenace.CanChooseInvalidAccess = false;
                 }
 
-                newMaintenace.UserID = User.UserID;
+               
 
-                maintenaceService.AddMaintenace(newMaintenace);
-                string str = string.Format("You added Clinic Maintenace");
+                maintenaceService.EditMaintenace(ClinicMaintenace);
+                string str = string.Format("You edited Clinic Maintenace");
                 MessageBox.Show(str);
 
                 adminCreated = true;
@@ -212,9 +219,9 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
         private bool CanSaveExecute(object parameter)
         {
 
-            if (String.IsNullOrEmpty(User.FullName) || String.IsNullOrEmpty(User.IDCardNumber)
-                || String.IsNullOrEmpty(User.Nationality)
-                || String.IsNullOrEmpty(User.Username) || parameter as PasswordBox == null
+            if (String.IsNullOrEmpty(ClinicMaintenace.FullName) || String.IsNullOrEmpty(ClinicMaintenace.IDCardNumber)
+                || String.IsNullOrEmpty(ClinicMaintenace.Nationality)
+                || String.IsNullOrEmpty(ClinicMaintenace.Username) || parameter as PasswordBox == null
                  || String.IsNullOrEmpty((parameter as PasswordBox).Password))
             {
                 return false;
@@ -316,6 +323,5 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
                 return false;
             }
         }
-
     }
 }

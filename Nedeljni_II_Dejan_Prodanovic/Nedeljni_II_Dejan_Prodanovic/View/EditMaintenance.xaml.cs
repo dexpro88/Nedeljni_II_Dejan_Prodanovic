@@ -17,20 +17,18 @@ using System.Windows.Shapes;
 namespace Nedeljni_II_Dejan_Prodanovic.View
 {
     /// <summary>
-    /// Interaction logic for AddClinicMaintenance.xaml
+    /// Interaction logic for EditMaintenance.xaml
     /// </summary>
-    public partial class AddClinicMaintenance : Window
+    public partial class EditMaintenance : Window
     {
-        public AddClinicMaintenance()
+        public EditMaintenance()
         {
             InitializeComponent();
-            DataContext = new AddClinicMaintenanceViewModel(this);
         }
-
-        public AddClinicMaintenance(vwClinicMaintenace maintenace)
+        public EditMaintenance(vwClinicMaintenace maintenance)
         {
             InitializeComponent();
-            DataContext = new AddClinicMaintenanceViewModel(this, maintenace);
+            DataContext = new EditMaintenanceViewModel(this,maintenance);
         }
     }
 }

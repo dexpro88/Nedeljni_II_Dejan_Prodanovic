@@ -13,6 +13,7 @@ namespace Nedeljni_II_Dejan_Prodanovic.Service
         List<vwClinicManager> GetvwManagers();
         tblClinicManager AddManager(tblClinicManager manager);
         void DeleteManager(int managerId);
+        void EditManager(vwClinicManager manager);
         vwClinicManager GetManagerByUserId(int userId);
         vwClinicManager GetManagerByManagerId(int managerId);
         List<tblClinicDoctor> GetDoctorsOfManager(int managerId);

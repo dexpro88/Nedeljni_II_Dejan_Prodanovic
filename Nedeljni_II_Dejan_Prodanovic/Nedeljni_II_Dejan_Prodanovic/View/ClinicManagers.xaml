@@ -7,8 +7,8 @@
         mc:Ignorable="d"
         Title="ClinicManagers"
         WindowStartupLocation="CenterScreen"
-        Height="600"
-        Width="1000"
+        Height="700"
+        Width="1200"
         Background="#2e3137">
     <Window.Resources>
         <Style TargetType="Button">
@@ -92,6 +92,17 @@
                                     Command="{Binding Path=DataContext.DeletManager, RelativeSource= {RelativeSource FindAncestor,
                                        AncestorType={x:Type DataGrid}},UpdateSourceTrigger=PropertyChanged}"
                                     Content="Delete" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Width="100"
+                                    Height="20"
+                                    Command="{Binding Path=DataContext.EditManager, RelativeSource= {RelativeSource FindAncestor,
+                                       AncestorType={x:Type DataGrid}},UpdateSourceTrigger=PropertyChanged}"
+                                    Content="Edit" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

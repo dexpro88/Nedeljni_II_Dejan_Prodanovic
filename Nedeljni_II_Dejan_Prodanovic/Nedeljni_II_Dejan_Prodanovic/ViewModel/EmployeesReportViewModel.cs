@@ -4,6 +4,7 @@ using Nedeljni_II_Dejan_Prodanovic.Service;
 using Nedeljni_II_Dejan_Prodanovic.View;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -51,6 +52,7 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
             List<tblClinicMaintenace> maintenaces = maintenaceService.GetMaintenaces();
             NumberOfMaintenances = maintenaces.Count().ToString();
 
+            NumberOfRiskPatients = ReadExaminationReportsAverageFromFile().ToString();
 
         }
 
@@ -176,6 +178,44 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
             else
             {
                 return false;
+            }
+        }
+
+        private double ReadExaminationReportsAverageFromFile()
+        {
+            try
+            {
+              
+                using (StreamReader sr = new StreamReader(@"..\..\AtRiskPatients.txt"))
+                {
+                    string line;
+
+                    int totalYears = 0;
+                    int counter = 0;
+                     
+                    while ((line = sr.ReadLine()) != null)
+                    {
+                        string[] lineStr = line.Split(',');
+                        int year;
+                        Int32.TryParse(lineStr[1],out year);
+
+                        totalYears += year;
+                        counter++;
+
+
+                    }
+
+                    double average = (double)totalYears / counter;
+                    return average;
+                }
+                
+            }
+            catch (Exception e)
+            {
+
+                Console.WriteLine("The file could not be read:");
+                Console.WriteLine(e.Message);
+                return 0;
             }
         }
     }

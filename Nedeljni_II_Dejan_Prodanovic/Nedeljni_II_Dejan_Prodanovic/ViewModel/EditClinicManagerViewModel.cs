@@ -15,39 +15,56 @@ using System.Windows.Input;
 
 namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
 {
-    class AddClinicMaintenanceViewModel:ViewModelBase
+    class EditClinicManagerViewModel:ViewModelBase
     {
-        AddClinicMaintenance view;
+        EditClinicManager view;
         IUserService userService;
         IClinicAminService adminService;
-        IClinicMaintenaceService maintenaceService;
+        IClinicManagerService managerService;
+        IClinicService clinicService;
+        string oldUserName;
+        string oldIdCardNumber;
 
-        public AddClinicMaintenanceViewModel(AddClinicMaintenance addClinicMaintenance)
+        public EditClinicManagerViewModel(EditClinicManager eEditClinicManager,
+            vwClinicManager managerToEdit)
         {
-            view = addClinicMaintenance;
+            view = eEditClinicManager;
 
 
             adminService = new ClinicAminService();
             userService = new UserService();
-            maintenaceService = new ClinicMaintenaceService();
+            managerService = new ClinicManagerService();
+            clinicService = new ClinicService();
 
-            User = new tblUser();
+            ClinicManager = managerToEdit;
 
+            oldUserName = managerToEdit.Username;
+            oldIdCardNumber = managerToEdit.IDCardNumber;
+
+            FloorList = new List<string>();
+            tblClinicInstitution clinic = clinicService.GetClinic();
+            for (int i = 0; i < clinic.NumberOdFloors; i++)
+            {
+                int f = i + 1;
+                FloorList.Add(f.ToString());
+            }
         }
-        public AddClinicMaintenanceViewModel(AddClinicMaintenance addClinicMaintenance,
-            vwClinicMaintenace maintenaceToEdit)
-        {
-            view = addClinicMaintenance;
 
-
-            adminService = new ClinicAminService();
-            userService = new UserService();
-            maintenaceService = new ClinicMaintenaceService();
-
-            User = new tblUser();
-
-        }
         public bool adminCreated = false;
+
+        private List<string> floorList;
+        public List<string> FloorList
+        {
+            get
+            {
+                return floorList;
+            }
+            set
+            {
+                floorList = value;
+                OnPropertyChanged("FloorList");
+            }
+        }
 
         private tblUser user;
         public tblUser User
@@ -62,28 +79,34 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
                 OnPropertyChanged("User");
             }
         }
-
-        private string hasRightToExpandClinic = "yes";
-        public string HasRightToExpandClinic
+        private vwClinicManager clinicManager;
+        public vwClinicManager ClinicManager
         {
-            get { return hasRightToExpandClinic; }
+            get
+            {
+                return clinicManager;
+            }
             set
             {
-                hasRightToExpandClinic = value;
-                OnPropertyChanged("HasRightToExpandClinic");
+                clinicManager = value;
+                OnPropertyChanged("ClinicManager");
+            }
+        }
+        private tblClinicManager manager;
+        public tblClinicManager Manager
+        {
+            get
+            {
+                return manager;
+            }
+            set
+            {
+                manager = value;
+                OnPropertyChanged("Manager");
             }
         }
 
-        private string takesCareOfIvalidAccess = "yes";
-        public string TakesCareOfIvalidAccess
-        {
-            get { return takesCareOfIvalidAccess; }
-            set
-            {
-                takesCareOfIvalidAccess = value;
-                OnPropertyChanged("TakesCareOfIvalidAccess");
-            }
-        }
+
         private string gender = "male";
         public string Gender
         {
@@ -95,13 +118,24 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
             }
         }
 
+        private string floor;
+        public string Floor
+        {
+            get { return floor; }
+            set
+            {
+                floor = value;
+                OnPropertyChanged("Floor");
+            }
+        }
+
         private DateTime dateOfBirth = DateTime.Now;
         public DateTime DateOfBirth
         {
             get { return dateOfBirth; }
             set { dateOfBirth = value; OnPropertyChanged("DateOfBirth"); }
         }
-       
+
         private tblClinicMaintenace maintenace;
         public tblClinicMaintenace Maintenace
         {
@@ -115,6 +149,8 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
                 OnPropertyChanged("Maintenace");
             }
         }
+
+
 
         private ICommand save;
         public ICommand Save
@@ -135,7 +171,7 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
             {
 
 
-                if (!ValidationClass.IsIDCardNumberValid(User.IDCardNumber))
+                if (!ValidationClass.IsIDCardNumberValid(ClinicManager.IDCardNumber))
                 {
                     MessageBox.Show("IDCardNumber is not valid");
                     return;
@@ -143,9 +179,9 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
 
 
 
-                tblUser userInDb = userService.GetUserByUserName(User.Username);
+                tblUser userInDb = userService.GetUserByUserName(ClinicManager.Username);
 
-                if (userInDb != null)
+                if (userInDb != null&& !userInDb.Username.Equals(oldUserName))
                 {
                     string str1 = string.Format("User with this username exists\n" +
                         "Enter another username");
@@ -153,9 +189,9 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
                     return;
                 }
 
-                userInDb = userService.GetUserByIdCardNumber(User.IDCardNumber);
+                userInDb = userService.GetUserByIdCardNumber(ClinicManager.IDCardNumber);
 
-                if (userInDb != null)
+                if (userInDb != null && !userInDb.IDCardNumber.Equals(oldIdCardNumber))
                 {
                     string str1 = string.Format("User with this IDCardNumber exists\n" +
                         "Enter another IDCardNumber");
@@ -166,37 +202,39 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
                 var password = passwordBox.Password;
 
                 string encryptedString = EncryptionHelper.Encrypt(password);
-                User.Gender = Gender;
-                User.DateOfBirth = DateOfBirth;
+                ClinicManager.Gender = Gender;
+                ClinicManager.DateOfBirth = DateOfBirth;
 
 
-                User.Password = encryptedString;
-                User = userService.AddUser(User);
-
-                tblClinicMaintenace newMaintenace = new tblClinicMaintenace();
-
-                if (HasRightToExpandClinic.Equals("yes"))
+                
+                
+                if (ClinicManager.MaxNumberOfDoctors == null)
                 {
-                    newMaintenace.CanChooseClinicExpansionPermission = true;
-                }
-                else
-                {
-                    newMaintenace.CanChooseClinicExpansionPermission = false;
+                    string str1 = string.Format("Invalid input for MaxNumberOfDoctors " +
+                        "\n" +
+                        "Enter integer number");
+                    MessageBox.Show(str1);
+                    return;
                 }
 
-                if (TakesCareOfIvalidAccess.Equals("yes"))
+
+                if (ClinicManager.MaxNumberOfDoctors == null)
                 {
-                    newMaintenace.CanChooseInvalidAccess = true;
-                }
-                else
-                {
-                    newMaintenace.CanChooseInvalidAccess = false;
+                    string str1 = string.Format("Invalid input for MinNumberOdRooms " +
+                        "\n" +
+                        "Enter integer number");
+                    MessageBox.Show(str1);
+                    return;
                 }
 
-                newMaintenace.UserID = User.UserID;
 
-                maintenaceService.AddMaintenace(newMaintenace);
-                string str = string.Format("You added Clinic Maintenace");
+                //tblClinicManager newManager = new tblClinicManager();
+
+                ClinicManager.ManagerFloor = Floor;
+
+                managerService.EditManager(ClinicManager);
+
+                string str = string.Format("You edited Clinic Manager");
                 MessageBox.Show(str);
 
                 adminCreated = true;
@@ -212,9 +250,9 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
         private bool CanSaveExecute(object parameter)
         {
 
-            if (String.IsNullOrEmpty(User.FullName) || String.IsNullOrEmpty(User.IDCardNumber)
-                || String.IsNullOrEmpty(User.Nationality)
-                || String.IsNullOrEmpty(User.Username) || parameter as PasswordBox == null
+            if (String.IsNullOrEmpty(ClinicManager.FullName) || String.IsNullOrEmpty(ClinicManager.IDCardNumber)
+                || String.IsNullOrEmpty(ClinicManager.Nationality)
+                || String.IsNullOrEmpty(ClinicManager.Username) || parameter as PasswordBox == null
                  || String.IsNullOrEmpty((parameter as PasswordBox).Password))
             {
                 return false;
@@ -316,6 +354,5 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
                 return false;
             }
         }
-
     }
 }

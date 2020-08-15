@@ -109,6 +109,43 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
             return true;
         }
 
+        private ICommand editManager;
+        public ICommand EditManager
+        {
+            get
+            {
+                if (editManager == null)
+                {
+                    editManager = new RelayCommand(param => EditManagerExecute(),
+                        param => CanEditManagerExecute());
+                }
+                return editManager;
+            }
+        }
+
+        private void EditManagerExecute()
+        {
+            try
+            {
+
+                EditClinicManager editClinicManager = new EditClinicManager(ClinicManager);
+                editClinicManager.ShowDialog();
+
+                ClinicManagerList = managerService.GetvwManagers();
+
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+        private bool CanEditManagerExecute()
+        {
+
+            return true;
+        }
+
         private ICommand deletManager;
         public ICommand DeletManager
         {

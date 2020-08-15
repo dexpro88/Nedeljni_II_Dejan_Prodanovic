@@ -14,6 +14,7 @@ namespace Nedeljni_II_Dejan_Prodanovic.Service
         List<tblClinicMaintenace> GetMaintenaces();
         List<vwClinicMaintenace> GetvwMaintenaces();
         void DeleteMaintenace(int maintenaceId);
+        void EditMaintenace(vwClinicMaintenace maintenace);
         vwClinicMaintenace GetMaintenaceByUserId(int userId);
     }
 }

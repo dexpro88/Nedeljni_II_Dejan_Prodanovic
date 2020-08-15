@@ -113,6 +113,45 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
             return true;
         }
 
+        private ICommand editMaintenance;
+        public ICommand EditMaintenance
+        {
+            get
+            {
+                if (editMaintenance == null)
+                {
+                    editMaintenance = new RelayCommand(param => EditMaintenanceExecute(),
+                        param => CanEditMaintenanceExecute());
+                }
+                return editMaintenance;
+            }
+        }
+
+        private void EditMaintenanceExecute()
+        {
+            try
+            {
+
+                EditMaintenance editClinicMaintenance = 
+                    new EditMaintenance(ConvertTovwMaintenance(ClinicMaintenace));
+                editClinicMaintenance.ShowDialog();
+
+                clinicMaintenaceListDB = maintenaceService.GetvwMaintenaces();
+                ClinicMaintenaceList = ConvertForPresentation(clinicMaintenaceListDB);
+
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+        private bool CanEditMaintenanceExecute()
+        {
+
+            return true;
+        }
+
         private ICommand deletMaintenance;
         public ICommand DeleteMaintenance
         {
@@ -291,5 +330,22 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
             return returnList;
        
     }
+
+        private vwClinicMaintenace ConvertTovwMaintenance(ClinicMaintenance maintenance)
+        {
+            vwClinicMaintenace vwClinicMaintenace = new vwClinicMaintenace();
+            vwClinicMaintenace.CanChooseInvalidAccess = maintenance.CanChooseInvalidAccess;
+            vwClinicMaintenace.ClinicMaintenaceID = maintenance.ClinicMaintenaceID;
+            vwClinicMaintenace.CanChooseClinicExpansionPermission = maintenance.CanChooseClinicExpansionPermission;
+            vwClinicMaintenace.UserID = maintenance.UserID;
+            vwClinicMaintenace.IDCardNumber = maintenance.IDCardNumber;
+            vwClinicMaintenace.FullName = maintenance.FullName;
+            vwClinicMaintenace.Gender = maintenance.Gender;
+            vwClinicMaintenace.DateOfBirth = maintenance.DateOfBirth;
+            vwClinicMaintenace.Nationality = maintenance.Nationality;
+            vwClinicMaintenace.Username = maintenance.Username;
+
+            return vwClinicMaintenace;
+        }
     }
 }

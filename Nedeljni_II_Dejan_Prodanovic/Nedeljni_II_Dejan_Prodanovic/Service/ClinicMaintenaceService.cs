@@ -153,5 +153,43 @@ namespace Nedeljni_II_Dejan_Prodanovic.Service
                 return null;
             }
         }
+
+        public void EditMaintenace(vwClinicMaintenace maintenace)
+        {
+            try
+            {
+                using (MyClinicDBEntities context = new MyClinicDBEntities())
+                {
+                    tblClinicMaintenace maintenaceToEdit = (from u in context.tblClinicMaintenaces
+                                                            where u.ClinicMaintenaceID == maintenace.ClinicMaintenaceID
+                                                            select u).First();
+                    tblUser userToEdit = (from u in context.tblUsers
+                                                            where u.UserID == maintenace.UserID
+                                                            select u).First();
+
+
+                    maintenaceToEdit.CanChooseClinicExpansionPermission =
+                    maintenace.CanChooseClinicExpansionPermission;
+                    maintenaceToEdit.CanChooseInvalidAccess =
+                    maintenace.CanChooseInvalidAccess;
+
+                    userToEdit.Username = maintenace.Username;
+                    userToEdit.FullName = maintenace.FullName;
+                    userToEdit.Gender = maintenace.Gender;
+                    userToEdit.IDCardNumber = maintenace.IDCardNumber;
+                    userToEdit.Nationality = maintenace.Nationality;
+                    
+                    context.SaveChanges();
+
+                    
+
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Exception" + ex.Message.ToString());
+                 
+            }
+        }
     }
 }

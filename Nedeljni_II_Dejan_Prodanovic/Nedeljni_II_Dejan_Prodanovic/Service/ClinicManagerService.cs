@@ -67,6 +67,48 @@ namespace Nedeljni_II_Dejan_Prodanovic.Service
             }
         }
 
+        public void EditManager(vwClinicManager manager)
+        {
+            try
+            {
+                using (MyClinicDBEntities context = new MyClinicDBEntities())
+                {
+                    tblClinicManager managerToEdit = (from u in context.tblClinicManagers
+                                                            where u.ManagerID == manager.ManagerID
+                                                            select u).First();
+                    tblUser userToEdit = (from u in context.tblUsers
+                                          where u.UserID == manager.UserID
+                                          select u).First();
+
+
+                    managerToEdit.MinNumberOdRooms =
+                    manager.MinNumberOdRooms;
+                    managerToEdit.MaxNumberOfDoctors =
+                    manager.MaxNumberOfDoctors;
+                    managerToEdit.NumberOfOmissions =
+                   manager.NumberOfOmissions;
+                    managerToEdit.ManagerFloor =
+                   manager.ManagerFloor;
+
+                    userToEdit.Username = manager.Username;
+                    userToEdit.FullName = manager.FullName;
+                    userToEdit.Gender = manager.Gender;
+                    userToEdit.IDCardNumber = manager.IDCardNumber;
+                    userToEdit.Nationality = manager.Nationality;
+
+                    context.SaveChanges();
+
+
+
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Exception" + ex.Message.ToString());
+
+            }
+        }
+
         public List<tblClinicDoctor> GetDoctorsOfManager(int managerId)
         {
             try

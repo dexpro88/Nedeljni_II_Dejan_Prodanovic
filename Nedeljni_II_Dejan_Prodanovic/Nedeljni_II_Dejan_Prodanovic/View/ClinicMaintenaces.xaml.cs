@@ -32,5 +32,7 @@ namespace Nedeljni_II_Dejan_Prodanovic.View
             InitializeComponent();
             DataContext = new ClinicMaintenaceViewModel(this,admin);
         }
+
+       
     }
 }
