@@ -67,6 +67,7 @@
     <Compile Include="Command\EventArgs.cs" />
     <Compile Include="Command\EventRaiser.cs" />
     <Compile Include="Command\RelayCommand.cs" />
+    <Compile Include="Converter\HasRightConverter.cs" />
     <Compile Include="Model\ClinicDataBaseModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -139,6 +140,7 @@
     <Compile Include="ViewModel\AddReportViewModel.cs" />
     <Compile Include="ViewModel\ClinicAdminFirstLoginViewModel.cs" />
     <Compile Include="ViewModel\ClinicAdminMainViewModel.cs" />
+    <Compile Include="ViewModel\ClinicDetailsViewModel.cs" />
     <Compile Include="ViewModel\ClinicDoctorsViewModel.cs" />
     <Compile Include="ViewModel\ClinicMaintenaceViewModel.cs" />
     <Compile Include="ViewModel\ClinicMaintenance.cs" />
@@ -185,6 +187,9 @@
     </Compile>
     <Compile Include="View\ClinicAdminMain.xaml.cs">
       <DependentUpon>ClinicAdminMain.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ClinicDetails.xaml.cs">
+      <DependentUpon>ClinicDetails.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\ClinicDoctors.xaml.cs">
       <DependentUpon>ClinicDoctors.xaml</DependentUpon>
@@ -284,6 +289,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\ClinicAdminMain.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ClinicDetails.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

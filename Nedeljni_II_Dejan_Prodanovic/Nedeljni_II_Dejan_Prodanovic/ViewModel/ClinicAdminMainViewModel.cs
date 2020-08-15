@@ -154,6 +154,40 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
             return true;
         }
 
+        private ICommand showClinic;
+        public ICommand ShowClinic
+        {
+            get
+            {
+                if (showClinic == null)
+                {
+                    showClinic = new RelayCommand(param => ShowClinicExecute(),
+                        param => CanShowClinicExecute());
+                }
+                return showClinic;
+            }
+        }
+
+        private void ShowClinicExecute()
+        {
+            try
+            {
+
+                ClinicDetails clinicDetails = new ClinicDetails();
+                clinicDetails.ShowDialog();
+                
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+        private bool CanShowClinicExecute()
+        {
+
+            return true;
+        }
+
         private ICommand showClinicManagers;
         public ICommand ShowClinicManagers
         {

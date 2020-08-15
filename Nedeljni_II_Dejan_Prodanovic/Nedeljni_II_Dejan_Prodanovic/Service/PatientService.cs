@@ -97,8 +97,6 @@ namespace Nedeljni_II_Dejan_Prodanovic.Service
                     context.SaveChanges();
 
                     
-
-
                 }
             }
             catch (Exception ex)

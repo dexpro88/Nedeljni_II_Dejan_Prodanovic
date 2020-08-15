@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Nedeljni_II_Dejan_Prodanovic.View"
+        xmlns:local1="clr-namespace:Nedeljni_II_Dejan_Prodanovic.Converter"
         mc:Ignorable="d"
         Title="ClinicDoctors"
         WindowStartupLocation="CenterScreen"
@@ -25,6 +26,7 @@
             <Setter Property="Foreground"
                     Value="White" />
         </Style>
+        <local1:HasRightConverter x:Key="HasRightConverter" />
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -83,7 +85,8 @@
                 <DataGridTextColumn Header="DoctorShift"
                                     Binding="{Binding DoctorShift}" />
                 <DataGridTextColumn Header="RecievesPatients"
-                                    Binding="{Binding RecievesPatients}" />
+                                    Binding="{Binding RecievesPatients, 
+                    Converter={StaticResource HasRightConverter}}" />
                 <DataGridTextColumn Header="ManagerFullName"
                                     Binding="{Binding ManagerFullName}" />
                 <DataGridTextColumn Header="ManagerIDCardNumber"

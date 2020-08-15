@@ -7,8 +7,8 @@
         mc:Ignorable="d"
         Title="ClinicAdminMain"
         WindowStartupLocation="CenterScreen"
-        Height="450"
-        Width="650"
+        Height="550"
+        Width="600"
         Background="#2e3137">
     <Window.Resources>
         <Style TargetType="Button">
@@ -66,6 +66,8 @@
             <Button Command="{Binding ShowClinicPatients}"
                     Visibility="{Binding NoClinicAdmin, UpdateSourceTrigger=PropertyChanged}"
                     Content="ClinicPatients" />
+            <Button Command="{Binding ShowClinic}"                
+                    Content="Show Clinic details" />
             <Button Command="{Binding EditClinic}"
                     Visibility="{Binding EditClinic, UpdateSourceTrigger=PropertyChanged}"
                     Content="Edit clinic" />
