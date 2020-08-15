@@ -14,6 +14,7 @@ namespace Nedeljni_II_Dejan_Prodanovic.Service
         tblClinicPatient AddPatient(tblClinicPatient patient);
         tblClinicPatient GetPatientByHealthCardNumber(string healthCardNumber);
         void DeletePatient(int patientId);
+        void EditPatient(vwClinicPatient patient);
         vwClinicPatient GetPatientByUserId(int userId);
     }
 }

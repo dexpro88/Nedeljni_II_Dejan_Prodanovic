@@ -70,6 +70,50 @@ namespace Nedeljni_II_Dejan_Prodanovic.Service
             }
         }
 
+        public void EditDoctor(vwClinicDoctor doctor)
+        {
+            try
+            {
+                using (MyClinicDBEntities context = new MyClinicDBEntities())
+                {
+                    tblClinicDoctor doctorToEdit = (from u in context.tblClinicDoctors
+                                                      where u.DoctorID == doctor.DoctorID
+                                                      select u).First();
+                    tblUser userToEdit = (from u in context.tblUsers
+                                          where u.UserID == doctor.UserID
+                                          select u).First();
+
+
+                    doctorToEdit.UniqueNumber = doctor.UniqueNumber;
+
+                    doctorToEdit.AccountNumber = doctor.AccountNumber;
+
+                    doctorToEdit.Sector = doctor.Sector;
+
+                    doctorToEdit.DoctorShift = doctor.DoctorShift;
+                    doctorToEdit.RecievesPatients = doctor.RecievesPatients;
+                    //doctorToEdit.ManagerID = doctor.ManagerID;
+
+
+                    userToEdit.Username = doctor.Username;
+                    userToEdit.FullName = doctor.FullName;
+                    userToEdit.Gender = doctor.Gender;
+                    userToEdit.IDCardNumber = doctor.IDCardNumber;
+                    userToEdit.Nationality = doctor.Nationality;
+
+                    context.SaveChanges();
+
+
+
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Exception" + ex.Message.ToString());
+
+            }
+        }
+
         public tblClinicDoctor GetDoctorByAccountNumber(string AccountNumber)
         {
             try

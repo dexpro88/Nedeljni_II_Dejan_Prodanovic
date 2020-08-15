@@ -17,19 +17,18 @@ using System.Windows.Shapes;
 namespace Nedeljni_II_Dejan_Prodanovic.View
 {
     /// <summary>
-    /// Interaction logic for DoctorMainView.xaml
+    /// Interaction logic for EditDoctor.xaml
     /// </summary>
-    public partial class DoctorMainView : Window
+    public partial class EditDoctor : Window
     {
-        public DoctorMainView()
+        public EditDoctor()
         {
             InitializeComponent();
-            DataContext = new DoctorMainViewModel(this);
         }
-        public DoctorMainView(vwClinicDoctor doctor)
+        public EditDoctor(vwClinicDoctor doctor)
         {
             InitializeComponent();
-           
+            DataContext = new EditDoctorViewModel(this, doctor);
         }
     }
 }

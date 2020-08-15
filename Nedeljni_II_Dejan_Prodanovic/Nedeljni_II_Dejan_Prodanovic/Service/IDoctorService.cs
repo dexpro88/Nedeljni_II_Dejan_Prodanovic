@@ -16,6 +16,6 @@ namespace Nedeljni_II_Dejan_Prodanovic.Service
         tblClinicDoctor GetDoctorByAccountNumber(string AccountNumber);
         vwClinicDoctor GetDoctorByUserId(int userId);
         void DeleteDoctor(int doctorId);
-
+        void EditDoctor(vwClinicDoctor doctor);
     }
 }

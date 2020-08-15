@@ -24,6 +24,7 @@ namespace Nedeljni_II_Dejan_Prodanovic.View
         public ClinicDoctors()
         {
             InitializeComponent();
+
         }
         public ClinicDoctors(tblClinicAdmin admin)
         {

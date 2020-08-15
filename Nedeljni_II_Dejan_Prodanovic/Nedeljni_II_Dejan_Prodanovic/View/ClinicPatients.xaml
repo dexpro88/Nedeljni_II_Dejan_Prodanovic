@@ -79,8 +79,7 @@
                                     Binding="{Binding HealthCardNumber}" />
                 <DataGridTextColumn Header="HealthAssuranceExpiryDate"
                                     Binding="{Binding HealthAssuranceExpiryDate,StringFormat='{}{0:dd/MM/yyyy}'}" />
-                <DataGridTextColumn Header="DoctorUniqueNumber"
-                                    Binding="{Binding DoctorUniqueNumber}" />
+                
                 
                 <DataGridTemplateColumn>
                     <DataGridTemplateColumn.CellTemplate>
@@ -90,6 +89,17 @@
                                     Command="{Binding Path=DataContext.DeletePatient, RelativeSource= {RelativeSource FindAncestor,
                                        AncestorType={x:Type DataGrid}},UpdateSourceTrigger=PropertyChanged}"
                                     Content="Delete" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Width="100"
+                                    Height="20"
+                                    Command="{Binding Path=DataContext.EditPatient, RelativeSource= {RelativeSource FindAncestor,
+                                       AncestorType={x:Type DataGrid}},UpdateSourceTrigger=PropertyChanged}"
+                                    Content="Edit" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

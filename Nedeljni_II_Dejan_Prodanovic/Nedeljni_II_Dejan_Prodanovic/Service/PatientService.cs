@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Nedeljni_II_Dejan_Prodanovic.Service
 {
@@ -67,7 +68,45 @@ namespace Nedeljni_II_Dejan_Prodanovic.Service
             }
         }
 
-        
+        public void EditPatient(vwClinicPatient patient)
+        {
+            MessageBox.Show(patient.UserID.ToString());
+            try
+            {
+                using (MyClinicDBEntities context = new MyClinicDBEntities())
+                {
+                    tblClinicPatient patientToEdit = (from u in context.tblClinicPatients
+                                                      where u.PatientID == patient.PatientID
+                                                      select u).First();
+                    tblUser userToEdit = (from u in context.tblUsers
+                                          where u.UserID == patient.UserID
+                                          select u).First();
+
+
+                    patientToEdit.HealthCardNumber = patient.HealthCardNumber;
+                    patientToEdit.HealthAssuranceExpiryDate = patient.HealthAssuranceExpiryDate;
+                    patientToEdit.DoctorUniqueNumber = patient.DoctorUniqueNumber;
+                    
+
+                    userToEdit.Username = patient.Username;
+                    userToEdit.FullName = patient.FullName;
+                    userToEdit.Gender = patient.Gender;
+                    userToEdit.IDCardNumber = patient.IDCardNumber;
+                    userToEdit.Nationality = patient.Nationality;
+
+                    context.SaveChanges();
+
+                    MessageBox.Show("nesto ");
+
+
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Exception" + ex.Message.ToString());
+
+            }
+        }
 
         public tblClinicPatient GetPatientByHealthCardNumber(string healthCardNumber)
         {

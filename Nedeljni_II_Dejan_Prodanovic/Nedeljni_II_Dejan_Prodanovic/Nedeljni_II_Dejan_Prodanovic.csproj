@@ -147,9 +147,12 @@
     <Compile Include="ViewModel\ClinicManagersViewModel.cs" />
     <Compile Include="ViewModel\ClinicPatientsViewModel.cs" />
     <Compile Include="ViewModel\Doctor.cs" />
+    <Compile Include="ViewModel\DoctorMainViewModel.cs" />
     <Compile Include="ViewModel\EditClinicManagerViewModel.cs" />
     <Compile Include="ViewModel\EditClinicViewModel.cs" />
+    <Compile Include="ViewModel\EditDoctorViewModel.cs" />
     <Compile Include="ViewModel\EditMaintenanceViewModel.cs" />
+    <Compile Include="ViewModel\EditPatientViewModel.cs" />
     <Compile Include="ViewModel\EmployeesReportViewModel.cs" />
     <Compile Include="ViewModel\ExaminationRequestViewModel.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
@@ -210,8 +213,14 @@
     <Compile Include="View\EditClinicManager.xaml.cs">
       <DependentUpon>EditClinicManager.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\EditDoctor.xaml.cs">
+      <DependentUpon>EditDoctor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\EditMaintenance.xaml.cs">
       <DependentUpon>EditMaintenance.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\EditPatient.xaml.cs">
+      <DependentUpon>EditPatient.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\EmployeesReport.xaml.cs">
       <DependentUpon>EmployeesReport.xaml</DependentUpon>
@@ -314,7 +323,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\EditDoctor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\EditMaintenance.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\EditPatient.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

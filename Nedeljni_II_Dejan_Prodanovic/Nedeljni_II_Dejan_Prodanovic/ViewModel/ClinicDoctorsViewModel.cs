@@ -199,6 +199,44 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
             return true;
         }
 
+        private ICommand editDoctor;
+        public ICommand EditDoctor
+        {
+            get
+            {
+                if (editDoctor == null)
+                {
+                    editDoctor = new RelayCommand(param => EditDoctorExecute(),
+                        param => CanEditDoctorExecute());
+                }
+                return editDoctor;
+            }
+        }
+
+        private void EditDoctorExecute()
+        {
+            try
+            {
+
+                EditDoctor editDoctor = new EditDoctor(ConvertTovwDoctor(SelectedDoctor));
+                editDoctor.ShowDialog();
+
+                ClinicDoctorList = doctorService.GetvwDoctors();
+                DoctorList = CreateDoctorList();
+
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+        private bool CanEditDoctorExecute()
+        {
+
+            return true;
+        }
+
         private ICommand deletManager;
         public ICommand DeletManager
         {
@@ -397,5 +435,28 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
 
 
     }
+
+        private vwClinicDoctor ConvertTovwDoctor(Doctor doctor)
+        {
+            vwClinicDoctor doctorToReturn = new vwClinicDoctor();
+            doctorToReturn.UniqueNumber = doctor.UniqueNumber;
+            doctorToReturn.AccountNumber = doctor.AccountNumber;
+            doctorToReturn.DoctorShift = doctor.DoctorShift;
+            doctorToReturn.RecievesPatients = doctor.RecievesPatients;
+            doctorToReturn.Sector = doctor.Sector;
+            doctorToReturn.ManagerID = doctor.ManagerID;
+            doctorToReturn.UserID = doctor.UserID;
+            doctorToReturn.DoctorID = doctor.DoctorID;
+            doctorToReturn.IDCardNumber = doctor.IDCardNumber;
+            doctorToReturn.FullName = doctor.FullName;
+            doctorToReturn.Gender = doctor.Gender;
+            doctorToReturn.DateOfBirth = doctor.DateOfBirth;
+            doctorToReturn.Nationality = doctor.Nationality;
+            doctorToReturn.Username = doctor.Username;
+
+            return doctorToReturn;
+
+             
+        }
     }
 }
