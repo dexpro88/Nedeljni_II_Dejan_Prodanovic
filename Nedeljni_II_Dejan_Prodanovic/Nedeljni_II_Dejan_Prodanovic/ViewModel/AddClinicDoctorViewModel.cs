@@ -279,6 +279,12 @@ namespace Nedeljni_II_Dejan_Prodanovic.ViewModel
                 var passwordBox = parameter as PasswordBox;
                 var password = passwordBox.Password;
 
+                if (!ValidationClass.IsPasswordValid(password))
+                {
+                    MessageBox.Show("Password is not valid");
+                    return;
+                }
+
                 string encryptedString = EncryptionHelper.Encrypt(password);
                 User.Gender = Gender;
                 User.DateOfBirth = DateOfBirth;

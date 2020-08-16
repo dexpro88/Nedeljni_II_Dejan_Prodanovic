@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Nedeljni_II_Dejan_Prodanovic.Validation
@@ -158,6 +159,38 @@ namespace Nedeljni_II_Dejan_Prodanovic.Validation
             long helpVar;
 
             return long.TryParse(HealthCardNumber, out helpVar);
+        }
+
+        public static bool IsPasswordValid(string password)
+        {
+            if (password.Length < 8)
+            {
+                return false;
+            }
+
+            var hasNumber = new Regex(@"[0-9]+");
+            var hasUpperChar = new Regex(@"[A-Z]+");
+            var hasLowerChar = new Regex(@"[a-z]+");
+            var hasMiniMaxChars = new Regex(@".{8,15}");
+            var hasSymbols = new Regex(@"[!@#$%^&*()_+=\[{\]};:<>|./?,-]");
+            bool isMatch1 = hasNumber.IsMatch(password);
+            bool isMatch2 = hasUpperChar.IsMatch(password);
+            bool isMatch3 = hasLowerChar.IsMatch(password);
+            bool isMatch4 = hasMiniMaxChars.IsMatch(password);
+            bool isMatch5 = hasSymbols.IsMatch(password);
+
+            if (!isMatch1)
+                return false;
+            if (!isMatch2)
+                return false;
+            if (!isMatch3)
+                return false;
+            if (!isMatch4)
+                return false;
+            if (!isMatch5)
+                return false;
+
+            return true;
         }
     }
 }
